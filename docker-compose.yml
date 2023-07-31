@@ -7,7 +7,24 @@ services:
     volumes:
       - .:/code
     ports:
-      - 8000:8000
+      - "8000:8000"
+    environment:
+      - DEBUG=1
+      - DJANGO_ALLOWED_HOSTS=localhost 127.0.0.1
+      - CELERY_BROKER=redis://redis:6379/0
+      - CELERY_BACKEND=redis://redis:6379/0
+    depends_on:
+      - db
+      - redis
+  celery:
+    build: .
+#    command: celery --app=config worker --loglevel=info  # تغییر در دستور اجرای celery worker
+    command: celery -A config worker -l INFO
+    volumes:
+      - .:/code
+    depends_on:
+      - web
+      - redis
 
   db:
     image: postgres:14
@@ -30,3 +47,9 @@ services:
 
     ports:
       - "5050:80"
+  redis:
+    image: "redis:alpine"
+volumes:
+  pgdata:
+
+
