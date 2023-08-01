@@ -9,8 +9,11 @@ click==8.1.6
 click-didyoumean==0.3.0
 click-plugins==1.1.1
 click-repl==0.3.0
+cron-descriptor==1.4.0
 Django==4.2.3
+django-celery-beat==2.5.0
 django-redis-cache==3.0.1
+django-timezone-field==5.1
 exceptiongroup==1.1.2
 h11==0.14.0
 idna==3.4
@@ -19,7 +22,9 @@ outcome==1.2.0
 prompt-toolkit==3.0.39
 psycopg2==2.9.6
 PySocks==1.7.1
+python-crontab==3.0.0
 python-dateutil==2.8.2
+pytz==2023.3
 redis==3.5.3
 selenium==4.10.0
 six==1.16.0
