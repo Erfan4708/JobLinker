@@ -46,8 +46,8 @@ services:
     environment:
       - POSTGRES_USER=root
       - POSTGRES_PASSWORD=root # Corrected the variable name from PASS to PASSWORD
-      - POSTGRES_DB=django_erfan
-#      - POSTGRES_PORT=5432
+      - POSTGRES_DB=job_linker
+      - POSTGRES_PORT=5432
     ports:
       - "5432:5432"
   pg-admin:

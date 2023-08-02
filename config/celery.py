@@ -12,7 +12,7 @@ app.autodiscover_tasks()
 
 app.conf.beat_schedule = {
     "my_task_every_2_seconds": {
-        "task": "post.tasks.my_task_2",
-        "schedule": timedelta(seconds=2),
+        "task": "post.tasks.jobinja_scrap",
+        "schedule": timedelta(hours=6),
     },
 }

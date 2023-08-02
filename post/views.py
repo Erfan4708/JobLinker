@@ -4,7 +4,7 @@ from django.http import HttpResponse
 from config.celery import app
 from time import sleep
 from celery import shared_task
-from .tasks import my_task_2
+from .tasks import jobinja_scrap
 
 # @app.task
 # def home_task():
@@ -14,5 +14,5 @@ from .tasks import my_task_2
 
 
 def task(request):
-    my_task_2.delay()
+    jobinja_scrap.delay()
     return HttpResponse("Hello")

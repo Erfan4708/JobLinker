@@ -1,7 +1,17 @@
 from django.db import models
-
-# Create your models here.
+from django.utils import timezone
 
 
 class Post(models.Model):
-    title = models.CharField(max_length=255)
+    website = models.CharField(max_length=255, blank=True)
+    title = models.CharField(max_length=255, blank=True)
+    company_name = models.CharField(max_length=255, blank=True)
+    detail_position = models.TextField(blank=True)
+    description_position = models.TextField(blank=True)
+    location = models.CharField(max_length=255, blank=True)
+    date_modified = models.IntegerField(blank=True)
+    date_crawled = models.DateTimeField(default=timezone.now)  # Automatically set the current date and time on creation
+    link = models.TextField(blank=True)
+
+    def __str__(self):
+        return self.title
