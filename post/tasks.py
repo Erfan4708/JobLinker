@@ -36,7 +36,7 @@ def jobinja_scrap():
     page = 1
     # first_title = getting_the_new_data()
     check = False
-    latest_post = Post.objects.order_by('-date_crawled').last()
+    latest_post = Post.objects.order_by('-date_crawled').last(website="jobinja")
     latest_title = latest_post.title if latest_post else None
     latest_link = latest_post.link if latest_post else None
 
@@ -127,6 +127,122 @@ def jobinja_scrap():
         driver.get(
             f"https://jobinja.ir/jobs/category/it-software-web-development-jobs/%D8%A7%D8%B3%D8%AA%D8%AE%D8%AF%D8%A7%D9%85-%D9%88%D8%A8-%D8%A8%D8%B1%D9%86%D8%A7%D9%85%D9%87-%D9%86%D9%88%DB%8C%D8%B3-%D9%86%D8%B1%D9%85-%D8%A7%D9%81%D8%B2%D8%A7%D8%B1?preferred_before=1690617703&sort_by=published_at_desc&page={page}")
     driver.quit()
+
+
+def jobvision_scrap():
+    driver = webdriver.Remote(
+        command_executor='http://selenium-hub:4444/wd/hub',
+        options=options,
+    )
+    driver.get("https://jobvision.ir/jobs/category/developer?sort=0&page=1")
+    driver.set_window_size(800, 4000)
+    sleep(2)
+    href = driver.find_elements(By.XPATH, "//job-card[contains(@class,'col-12 row')]//a")[0]
+    href.click()
+    sleep(2)
+
+    def get_current_datetime_str():
+        now = datetime.now()
+        datetime_str = now.strftime("%Y-%m-%d %H:%M:%S.%f") + "+00"
+        return datetime_str
+
+    link__ = ""
+    wait = WebDriverWait(driver, 10)
+    hrefs = driver.find_elements(By.XPATH,
+                                 "//a[@class='col-12 row align-items-start rounded pt-3 px-0 mb-3 mb-md-2 position-relative bg-white mobile-job-card shadow-sm pb-3']")
+    page = 1
+    check = False
+    latest_post = Post.objects.order_by('-date_crawled').last(website="jobvision")
+    latest_title = latest_post.title if latest_post else None
+    latest_link = latest_post.link if latest_post else None
+    while check == False:
+        for i in range(30):
+            try:
+                title_element = wait.until(EC.presence_of_element_located(
+                    (By.XPATH, '/html/body/app-root/div/job-detail/section/div[4]/div/div[2]/h1'))).text
+                company_name = driver.find_element(By.XPATH,
+                                                   "/html/body/app-root/div/job-detail/section/div[4]/div/div[2]/div/div/a").text
+                detail = driver.find_element(By.XPATH,
+                                             "/html/body/app-root/div/job-detail/section/div[5]/app-header-job-detail/header/div/div[2]/div/div[1]").text
+                description = driver.find_element(By.XPATH,
+                                                  "/html/body/app-root/div/job-detail/section/div[6]/div/div").text
+
+                try:
+                    _ = driver.find_element(By.XPATH, '//*[text()="محل کار"]')
+                    location = _.find_element(By.XPATH, './following-sibling::*[1]').text
+                except NoSuchElementException:
+                    _ = driver.find_element(By.XPATH, '//*[text()="Location"]')
+                    location = _.find_element(By.XPATH, './following-sibling::*[1]').text
+                except:
+                    _ = ""
+                    location = "-"
+
+                print(title_element)
+                try:
+                    div_date_modified = driver.find_element(By.XPATH, '//*[contains(text(), "روز پیش")]').text
+                    date_modified = int(re.findall(r'\d+', div_date_modified)[0])
+                except NoSuchElementException:
+                    try:
+                        div_date_modified = driver.find_element(By.XPATH, '//*[contains(text(), "days ago")]').text
+                        date_modified = int(re.findall(r'\d+', div_date_modified)[0])
+                    except NoSuchElementException:
+                        date_modified = 0
+
+                print(date_modified)
+                date_crawled = datetime.now()
+                link = driver.current_url
+
+                dictionary = {
+                    "title": title_element,
+                    "company_name": company_name,
+                    "date_modified": date_modified,
+                    "description_position": description,
+                    "detail_position": detail,
+                    "link": link,
+                    "location": location,
+                    "date_crawled": date_crawled,
+                }
+                save_to_postgres(dictionary, "job_vision")
+
+                try:
+                    next = driver.find_element(By.XPATH, "/html/body/app-root/div/job-detail/section/div[3]/a[2]")
+                    next.click()
+                except NoSuchElementException:
+                    driver.get(f"https://jobvision.ir/jobs/category/developer?page={page}&sort=0")
+                    sleep(4)
+                    driver.find_element(By.XPATH, f"//*[text()='{title_element}']").click()
+                    try:
+                        next = driver.find_element(By.XPATH, "/html/body/app-root/div/job-detail/section/div[3]/a[2]")
+                        next.click()
+                    except NoSuchElementException:
+                        page += 1
+                        driver.get(f"https://jobvision.ir/jobs/category/developer?page={page}&sort=0")
+                        sleep(2)
+
+            except:
+                driver.get(f"https://jobvision.ir/jobs/category/developer?page={page}&sort=0")
+                sleep(4)
+                try:
+                    driver.find_element(By.XPATH, f"//*[text()='{title_element}']").click()
+                except:
+                    page += 1
+                    driver.get(f"https://jobvision.ir/jobs/category/developer?page={page}&sort=0")
+                    sleep(2)
+                    href = driver.find_elements(By.XPATH, "//job-card[contains(@class,'col-12 row')]//a")[0]
+                    href.click()
+                    break
+                try:
+                    next = driver.find_element(By.XPATH, "/html/body/app-root/div/job-detail/section/div[3]/a[2]")
+                    next.click()
+                except NoSuchElementException:
+                    page += 1
+                    driver.get(f"https://jobvision.ir/jobs/category/developer?page={page}&sort=0")
+                    sleep(2)
+
+        page += 1
+
+    driver.quit()
+
 
 def save_to_postgres(data, website):
     post = Post(
