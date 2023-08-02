@@ -83,6 +83,7 @@ def jobinja_scrap():
                     print("Data base is update")
                     check = True
                     break
+
                 if isinstance(date_modified, int):
                     dictionary = {
                         "title": title,
@@ -191,7 +192,10 @@ def jobvision_scrap():
                 print(date_modified)
                 date_crawled = datetime.now()
                 link = driver.current_url
-
+                if title_element == latest_title and link == latest_link:
+                    print("Data base is update")
+                    check = True
+                    break
                 dictionary = {
                     "title": title_element,
                     "company_name": company_name,
