@@ -36,7 +36,7 @@ def jobinja_scrap():
     page = 1
     # first_title = getting_the_new_data()
     check = False
-    latest_post = Post.objects.order_by('-date_crawled').last(website="jobinja")
+    latest_post = Post.objects.filter(website="jobinja").order_by('-date_crawled').last()
     latest_title = latest_post.title if latest_post else None
     latest_link = latest_post.link if latest_post else None
 
@@ -153,7 +153,7 @@ def jobvision_scrap():
                                  "//a[@class='col-12 row align-items-start rounded pt-3 px-0 mb-3 mb-md-2 position-relative bg-white mobile-job-card shadow-sm pb-3']")
     page = 1
     check = False
-    latest_post = Post.objects.order_by('-date_crawled').last(website="jobvision")
+    latest_post = latest_post = Post.objects.filter(website="jobvision").order_by('-date_crawled').last()
     latest_title = latest_post.title if latest_post else None
     latest_link = latest_post.link if latest_post else None
     while check == False:

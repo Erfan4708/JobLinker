@@ -5,6 +5,7 @@ from config.celery import app
 from time import sleep
 from celery import shared_task
 from .tasks import jobinja_scrap
+from .models import Post
 
 # @app.task
 # def home_task():
@@ -15,4 +16,5 @@ from .tasks import jobinja_scrap
 
 def task(request):
     jobinja_scrap.delay()
-    return HttpResponse("Hello")
+    title = Post.objects.filter(website="jobinja").order_by('-date_crawled').first()
+    return HttpResponse(title)
