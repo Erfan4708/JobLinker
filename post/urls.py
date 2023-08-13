@@ -2,5 +2,6 @@
 from django.urls import path, include
 from . import views
 urlpatterns = [
-    path("", views.task),
+    path('', views.PostListView.as_view(), name='post_list'),
+    path('<int:pk>/', views.PostDetailView.as_view(), name='post_detail'),
 ]

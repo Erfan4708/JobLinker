@@ -4,17 +4,20 @@ from django.http import HttpResponse
 from config.celery import app
 from time import sleep
 from celery import shared_task
-from .tasks import jobinja_scrap
+from .tasks import jobinja_scrap, jobvision_scrap
 from .models import Post
-
-# @app.task
-# def home_task():
-#     print("1111111111111111111111111111111111111111111111111111111111111111111")
-#     sleep(10)
-#     open("test2.txt", "w").close()
+from django.views import generic
 
 
-def task(request):
-    jobinja_scrap.delay()
-    title = Post.objects.filter(website="jobinja").order_by('-date_crawled').first()
-    return HttpResponse(title)
+class PostListView(generic.ListView):
+    # jobvision_scrap.delay()
+    # jobinja_scrap.delay()
+    model = Post
+    paginate_by = 20
+    template_name = 'post_list.html'
+    context_object_name = 'posts'
+
+
+class PostDetailView(generic.DetailView):
+    model = Post
+    template_name = 'post_detail.html'

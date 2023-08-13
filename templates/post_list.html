@@ -1,0 +1,100 @@
+{% extends '_base.html' %}
+{% load static %}
+
+{% block title %}
+    لیست آگهی ها
+{% endblock title %}
+
+{% block new_ads %}
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="section-tittle text-center">
+                <h2 style="font-family: IRANSans;font-size: x-large; letter-spacing: -1px">جدید ترین آگهی ها</h2>
+            </div>
+        </div>
+    </div>
+{% endblock new_ads %}
+{% block header %}
+    <!-- slider Area Start-->
+    <div class="slider-area " dir="rtl">
+        <!-- Mobile Menu -->
+        <div class="slider-active">
+            <div class="single-slider slider-height d-flex align-items-center"
+                 data-background="{% static 'img/hero/h1_hero.jpg' %}">
+                <div class="container">
+                    <div class="row" style="justify-content: center;">
+                        <div class="col-xl-6 col-lg-9 col-md-10">
+                            <div class="hero__caption text-center" style="justify-content: center;">
+                                {#                                    <h1>Find the most exciting startup jobs</h1>#}
+                                <h2 style="font-family: IRANSans;line-height: normal" class="text-center">همه ی آگهی های
+                                    سایت های کاریابی را یکجا ببینید</h2>
+                            </div>
+                            <br>
+                        </div>
+                    </div>
+                    <!-- Search Box -->
+                    <div class="row" style="justify-content: left;">
+                        <div class="col-xl-8">
+                            <!-- form -->
+                            <form action="#" class="search-box">
+                                <div class="input-form">
+                                    <input style="font-family: IRANSans" type="text"
+                                           placeholder="عنوان شغلی / مهارت یا ...">
+                                </div>
+                                <div class="select-form text-center" style="font-family: IRANSans;">
+                                    <div class="select-itms">
+                                        <select name="select" id="select1">
+                                            <option value="">همه شهر ها</option>
+                                            <option value="">تهران</option>
+                                            <option value="">خراسان رضوی</option>
+                                            <option value="">اصفهان</option>
+                                            <option value="">اراک</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="search-form">
+                                    <a style="font-family: IRANSans" href="#">جستجو</a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- slider Area End-->
+{% endblock header %}
+
+{% block content %}
+
+    {% for post in posts %}
+
+        <div class="single-job-items mb-30" style="margin-bottom: 30px;font-family: IRANSans">
+            <div class="items-link f-left">
+                <a href="{% url 'post_detail' post.id %}">مشاهده آگهی</a>
+                <span style="font-size: small; text-align: center"> روز پیش {{ post.date_modified }}</span>
+            </div>
+
+            <div class="job-items" style="display: flex; align-items: center;">
+                <div class="job-tittle" style="flex: 1;">
+                    <a href="{% url 'post_detail' post.id %}">
+                        <h4 dir="rtl"
+                            style="font-size: large; font-family: 'IRANSans'; margin-bottom: 10px;text-align: right">{{ post.title }}</h4>
+                    </a>
+                    <ul style="text-align: right; margin-right: 0;">
+                        <li>{{ post.website }}</li>
+                        <li>{{ post.company_name }}</li>
+                        <li>{{ post.location }} <i class="fas fa-map-marker-alt"></i></li>
+                    </ul>
+                </div>
+                <div class="company-img" style="margin-left: 20px;">
+                    <a href="{% url 'post_detail' post.id %}">
+                        <img src="{% static 'img/icon/job-list1.png' %}" alt="">
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    {% endfor %}
+
+{% endblock content %}

@@ -16,6 +16,8 @@ from .models import Post
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import TimeoutException
 from selenium.common.exceptions import ElementNotInteractableException
+from django.db.models import Max
+
 
 
 
@@ -34,12 +36,8 @@ def jobinja_scrap():
     driver.get("https://jobinja.ir/jobs/category/it-software-web-development-jobs/%D8%A7%D8%B3%D8%AA%D8%AE%D8%AF%D8%A7%D9%85-%D9%88%D8%A8-%D8%A8%D8%B1%D9%86%D8%A7%D9%85%D9%87-%D9%86%D9%88%DB%8C%D8%B3-%D9%86%D8%B1%D9%85-%D8%A7%D9%81%D8%B2%D8%A7%D8%B1?preferred_before=1690617703&sort_by=published_at_desc")
     wait = WebDriverWait(driver, 10)
     page = 1
-    # first_title = getting_the_new_data()
     check = False
-    latest_post = Post.objects.filter(website="jobinja").order_by('-date_crawled').last()
-    latest_title = latest_post.title if latest_post else None
-    latest_link = latest_post.link if latest_post else None
-
+    window_handles = []
     while check == False:
         divs = driver.find_elements(By.XPATH, "//div[@class='o-listView__itemWrap c-jobListView__itemWrap u-clearFix']")
         hrefs = driver.find_elements(By.XPATH, "//a[@class='c-jobListView__titleLink']")
@@ -55,7 +53,7 @@ def jobinja_scrap():
                     # -1 mean Fori
                     date_modified = int(re.findall(r'\d+', date_modified.text)[0])
                     print(date_modified)
-                except NoSuchElementException:
+                except:
                     if date_modified.text == "(امروز)":
                         date_modified = 0
                     else:
@@ -64,9 +62,11 @@ def jobinja_scrap():
                 print(date_modified)
 
                 href.click()
-
                 all_handle = driver.window_handles
+                window_handles.append(all_handle[-1])  # افزودن هندل پنجره جدید به لیست
                 driver.switch_to.window(all_handle[-1])
+                # all_handle = driver.window_handles
+                # driver.switch_to.window(all_handle[-1])
 
                 title = wait.until(
                     EC.presence_of_element_located((By.XPATH, "//div[@class='c-jobView__titleText']//*"))).text
@@ -79,8 +79,10 @@ def jobinja_scrap():
                 date_crawled = datetime.now()
                 link = driver.find_element(By.XPATH,
                                            "//a[@class='c-sharingJobOnMobile__uniqueURL u-textSmall c-muteLink']").text
-                if title == latest_title and link == latest_link:
-                    print("Data base is update")
+                link_exists = Post.objects.filter(link=link).exists()
+                if link_exists:
+                    print(f"Link '{link}' already exists in the database. Skipping scraping.")
+                    print("data base is update ###############################")
                     check = True
                     break
 
@@ -108,9 +110,9 @@ def jobinja_scrap():
                     }
                 save_to_postgres(dictionary, "jobinja")
                 driver.close()
+                driver.switch_to.window(all_handle[0])
                 title = wait.until(EC.presence_of_element_located((By.XPATH, "//a[@class='c-jobListView__titleLink']")))
-                driver.switch_to.window(all_handle[0])
-                driver.switch_to.window(all_handle[0])
+
 
             except NoSuchElementException:
                 print("NoSuchElementException!!!")
@@ -127,9 +129,10 @@ def jobinja_scrap():
         page += 1
         driver.get(
             f"https://jobinja.ir/jobs/category/it-software-web-development-jobs/%D8%A7%D8%B3%D8%AA%D8%AE%D8%AF%D8%A7%D9%85-%D9%88%D8%A8-%D8%A8%D8%B1%D9%86%D8%A7%D9%85%D9%87-%D9%86%D9%88%DB%8C%D8%B3-%D9%86%D8%B1%D9%85-%D8%A7%D9%81%D8%B2%D8%A7%D8%B1?preferred_before=1690617703&sort_by=published_at_desc&page={page}")
+        sleep(4)
     driver.quit()
 
-
+@shared_task
 def jobvision_scrap():
     driver = webdriver.Remote(
         command_executor='http://selenium-hub:4444/wd/hub',
@@ -147,15 +150,11 @@ def jobvision_scrap():
         datetime_str = now.strftime("%Y-%m-%d %H:%M:%S.%f") + "+00"
         return datetime_str
 
-    link__ = ""
     wait = WebDriverWait(driver, 10)
     hrefs = driver.find_elements(By.XPATH,
                                  "//a[@class='col-12 row align-items-start rounded pt-3 px-0 mb-3 mb-md-2 position-relative bg-white mobile-job-card shadow-sm pb-3']")
     page = 1
     check = False
-    latest_post = latest_post = Post.objects.filter(website="jobvision").order_by('-date_crawled').last()
-    latest_title = latest_post.title if latest_post else None
-    latest_link = latest_post.link if latest_post else None
     while check == False:
         for i in range(30):
             try:
@@ -180,11 +179,14 @@ def jobvision_scrap():
 
                 print(title_element)
                 try:
-                    div_date_modified = driver.find_element(By.XPATH, '//*[contains(text(), "روز پیش")]').text
+                    div_date_modified = driver.find_element(By.XPATH,
+                                                            '//div[@class="col-12 row p-3"]//*[contains(text(), "روز پیش")]').text
                     date_modified = int(re.findall(r'\d+', div_date_modified)[0])
                 except NoSuchElementException:
                     try:
-                        div_date_modified = driver.find_element(By.XPATH, '//*[contains(text(), "days ago")]').text
+                        div_date_modified = driver.find_element(By.XPATH,
+                                                                '//div[@class="col-12 row p-3"]//*[contains(text(), "days ago")]').text
+                        date_modified = int(re.findall(r'\d+', div_date_modified)[0])
                         date_modified = int(re.findall(r'\d+', div_date_modified)[0])
                     except NoSuchElementException:
                         date_modified = 0
@@ -192,8 +194,10 @@ def jobvision_scrap():
                 print(date_modified)
                 date_crawled = datetime.now()
                 link = driver.current_url
-                if title_element == latest_title and link == latest_link:
-                    print("Data base is update")
+                link_exists = Post.objects.filter(link=link).exists()
+                if link_exists:
+                    print(f"Link '{link}' already exists in the database. Skipping scraping.")
+                    print("data base is update ###############################")
                     check = True
                     break
                 dictionary = {
@@ -249,7 +253,14 @@ def jobvision_scrap():
 
 
 def save_to_postgres(data, website):
+    # پیدا کردن بیشترین آی‌دی موجود در دیتابیس
+    max_id = Post.objects.aggregate(Max('id'))['id__max']
+
+    # ایجاد آی‌دی جدید با افزودن یکی به بیشترین آی‌دی
+    new_id = max_id + 1 if max_id is not None else 1
+
     post = Post(
+        id=new_id,  # تعیین آی‌دی جدید
         website=website,
         title=data['title'],
         company_name=data['company_name'],
@@ -260,4 +271,6 @@ def save_to_postgres(data, website):
         date_crawled=data['date_crawled'],
         link=data['link']
     )
+
+    print('save_to_postgres@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@')
     post.save()
