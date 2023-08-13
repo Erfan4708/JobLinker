@@ -2,14 +2,14 @@
 {% load static %}
 
 {% block title %}
-    لیست آگهی ها
+    نتایج جسنجو
 {% endblock title %}
 
 {% block new_ads %}
     <div class="row">
         <div class="col-lg-12">
             <div class="section-tittle text-center">
-                <h2 style="font-family: IRANSans;font-size: x-large; letter-spacing: -1px">جدید ترین آگهی ها</h2>
+                <h2 style="font-family: IRANSans;font-size: x-large; letter-spacing: -1px">نتایج جستجو</h2>
             </div>
         </div>
     </div>
@@ -36,11 +36,10 @@
                     <div class="row" style="justify-content: left;">
                         <div class="col-xl-8">
                             <!-- form -->
-                            <form action="{% url 'search' %}" class="search-box" name="form_filter">
-                                {% csrf_token %}
+                            <form action="#" class="search-box">
                                 <div class="input-form">
                                     <input style="font-family: IRANSans" type="text"
-                                           placeholder="عنوان شغلی / مهارت یا ..." name="search_keyword">
+                                           placeholder="عنوان شغلی / مهارت یا ...">
                                 </div>
                                 <div class="select-form text-center" style="font-family: IRANSans;">
                                     <div class="select-itms">
@@ -54,7 +53,7 @@
                                     </div>
                                 </div>
                                 <div class="search-form">
-                                    <button style="font-family: IRANSans" type="submit">جستجو</button>
+                                    <a style="font-family: IRANSans" href="#">جستجو</a>
                                 </div>
                             </form>
                         </div>
@@ -68,45 +67,45 @@
 
 {% block content %}
 
-    {% for post in posts %}
+    {% for result in search_result %}
 
         <div class="single-job-items mb-30" style="margin-bottom: 30px;font-family: IRANSans">
             <div class="items-link f-left">
-                <a href="{% url 'post_detail' post.id %}">مشاهده آگهی</a>
+                <a href="{% url 'post_detail' result.id %}">مشاهده آگهی</a>
                 <span style="font-size: small; text-align: center" dir="rtl">
-                    {% if post.date_modified == "(امروز)" %}
+                    {% if result.date_modified == "(امروز)" %}
                     امروز منتشر شده
-                    {% elif post.date_modified == 0 %}
+                    {% elif result.date_modified == 0 %}
                         امروز منتشر شده
 
-                    {% elif post.date_modified == -1 %}
+                    {% elif result.date_modified == -1 %}
                     <p style="font-family: IRANSans;background-color: #f65151;border-radius: 5px;color: white;">فوری</p>
                     {% else %}
-                         {{ post.date_modified }}  روز پیش منتشر شده
+                         {{ result.date_modified }}  روز پیش منتشر شده
                     {% endif %}
                 </span>
             </div>
 
             <div class="job-items" style="display: flex; align-items: center;">
                 <div class="job-tittle" style="flex: 1;">
-                    <a href="{% url 'post_detail' post.id %}">
+                    <a href="{% url 'post_detail' result.id %}">
                         <h4 dir="rtl"
-                            style="font-size: large; font-family: 'IRANSans'; margin-bottom: 10px;text-align: right">{{ post.title }}</h4>
+                            style="font-size: large; font-family: 'IRANSans'; margin-bottom: 10px;text-align: right">{{ result.title }}</h4>
                     </a>
                     <ul style="text-align: right; margin-right: 0;">
                         <li>
-                             {% if post.website == "jobinja" %}
+                             {% if result.website == "jobinja" %}
                                 جابینجا
-                            {% elif post.website == "job_vision" %}
+                            {% elif result.website == "job_vision" %}
                                 جاب ویژن
                             {% endif %}
                         </li>
-                        <li>{{ post.company_name }}</li>
-                        <li>{{ post.location }} <i class="fas fa-map-marker-alt"></i></li>
+                        <li>{{ result.company_name }}</li>
+                        <li>{{ result.location }} <i class="fas fa-map-marker-alt"></i></li>
                     </ul>
                 </div>
                 <div class="company-img" style="margin-left: 20px;">
-                    <a href="{% url 'post_detail' post.id %}">
+                    <a href="{% url 'post_detail' result.id %}">
                         <img src="{% static 'img/icon/job-list1.png' %}" alt="">
                     </a>
                 </div>
