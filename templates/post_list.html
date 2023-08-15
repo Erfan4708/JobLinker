@@ -44,12 +44,20 @@
                                 </div>
                                 <div class="select-form text-center" style="font-family: IRANSans;">
                                     <div class="select-itms">
-                                        <select name="select" id="select1">
+                                        <select name="location" id="select1">
                                             <option value="">همه شهر ها</option>
-                                            <option value="">تهران</option>
-                                            <option value="">خراسان رضوی</option>
-                                            <option value="">اصفهان</option>
-                                            <option value="">اراک</option>
+                                            <option value="تهران"
+                                                    {% if selected_location == "تهران" %}selected{% endif %}>تهران
+                                            </option>
+                                            <option value="مشهد"
+                                                    {% if selected_location == "مشهد" %}selected{% endif %}>مشهد
+                                            </option>
+                                            <option value="اصفهان"
+                                                    {% if selected_location == "اصفهان" %}selected{% endif %}>اصفهان
+                                            </option>
+                                            <option value="اراک"
+                                                    {% if selected_location == "اراک" %}selected{% endif %}>اراک
+                                            </option>
                                         </select>
                                     </div>
                                 </div>

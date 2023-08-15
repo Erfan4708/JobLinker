@@ -69,21 +69,25 @@
                                         {#                                                    <li><a href="job_details.html">job Details</a></li>#}
                                         {#                                                </ul>#}
                                         {#                                            </li>#}
-                                        <li><a style="font-family: IRANSans" href="{% url 'favorite_list' %}">نشان شده ها</a></li>
+                                        <li><a style="font-family: IRANSans" href="{% url 'favorite_list' %}">نشان شده
+                                            ها</a></li>
                                     </ul>
                                 </nav>
                             </div>
                             <!-- Header-btn -->
                             {% if user.is_authenticated %}
-                                <p>
-                                {{ user.username }}
-                                </p>
-                            <a style="border-radius: 5px" href="{% url 'logout' %}" class="btn head-btn2">خروج</a>
+
+                                <a style="border-radius: 5px; background-color: #242B5E; color: white"
+                                   href="{% url 'logout' %}" class="btn">{{ user.username }}</a>
+
+                                <a style="border-radius: 5px" href="{% url 'logout' %}" class="btn head-btn2">خروج</a>
                             {% else %}
-                            <div class="header-btn d-none f-right d-lg-block">
-                                <a style="border-radius: 5px" href="{% url 'signup' %}" class="btn head-btn1">ثبت نام</a>
-                                <a style="border-radius: 5px" href="{% url 'login' %}" class="btn head-btn2">ورود</a>
-                            </div>
+                                <div class="header-btn d-none f-right d-lg-block">
+                                    <a style="border-radius: 5px" href="{% url 'signup' %}" class="btn head-btn1">ثبت
+                                        نام</a>
+                                    <a style="border-radius: 5px" href="{% url 'login' %}"
+                                       class="btn head-btn2">ورود</a>
+                                </div>
                             {% endif %}
                         </div>
                     </div>

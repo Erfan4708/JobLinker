@@ -68,17 +68,24 @@ class PostDetailView(generic.DetailView):
 
 def search(request):
     search_result = None
+    selected_location = None
     if request.method == "POST":
         search_keyword = request.POST.get("search_keyword")
+        location = request.POST.get("location")
+        if location == "همه شهر ها":
+            location = ""
+
         q_condition = Q(title__icontains=search_keyword) | \
                       Q(company_name__icontains=search_keyword) | \
                       Q(detail_position__icontains=search_keyword) | \
-                      Q(description_position__icontains=search_keyword) | \
-                      Q(location__icontains=search_keyword)
+                      Q(description_position__icontains=search_keyword)
+
+        if location:
+            q_condition &= Q(location__icontains=location)
 
         search_result = Post.objects.filter(q_condition)
-    return render(request, 'search_result.html', {'search_result': search_result})
-
+        selected_location = location
+    return render(request, 'search_result.html', {'search_result': search_result, 'selected_location': selected_location})
 
 # view.py
 
