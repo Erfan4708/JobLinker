@@ -1,6 +1,8 @@
+from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.models import User
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 # Create your views here.
 from config.celery import app
 from time import sleep
@@ -11,9 +13,9 @@ from django.views import generic, View
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect
 from .models import Post, FavoritePost
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-
-
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
+from django.urls import reverse
 
 class PostListView(generic.ListView):
     # jobvision_scrap.delay()
@@ -25,11 +27,23 @@ class PostListView(generic.ListView):
     context_object_name = 'posts'
 
 
-class FavoriteListView(LoginRequiredMixin, UserPassesTestMixin, generic.ListView):
+class FavoriteListView(generic.ListView):
     model = FavoritePost
     template_name = "favorite.html"
     context_object_name = 'favorites'
 
+    def get_queryset(self):
+        if self.request.user.is_authenticated:
+            user_id = self.request.user.id
+            return FavoritePost.objects.filter(user_id=user_id)
+        else:
+            return FavoritePost.objects.none()
+
+
+
+
+
+from django.shortcuts import get_object_or_404
 
 class PostDetailView(generic.DetailView):
     model = Post
@@ -39,14 +53,17 @@ class PostDetailView(generic.DetailView):
         context = super().get_context_data(**kwargs)
 
         post = self.get_object()  # Get the Post instance
+        user = self.request.user
 
-        try:
-            favorite_post = FavoritePost.objects.get(post=post, user=self.request.user)
-        except FavoritePost.DoesNotExist:
-            favorite_post = None
+        favorite_post = None
+        if user.is_authenticated:
+            favorite_post = FavoritePost.objects.filter(user=user, post=post).first()
 
         context['favorite_post'] = favorite_post  # Add FavoritePost instance to context
         return context
+
+
+
 
 
 def search(request):
@@ -66,37 +83,29 @@ def search(request):
 # view.py
 
 
-class AddToFavoritesView(LoginRequiredMixin,UserPassesTestMixin, View):
-
+class AddToFavoritesView(View):
     def post(self, request, pk):
         post = get_object_or_404(Post, pk=pk)
+        user = request.user
 
         if request.method == "POST":
             check_favorite = request.POST.get("check_favorite")
-            username = request.POST.get("user")
-            user = User.objects.get(username=username)
 
-            # Determine whether the checkbox was checked or not
             if check_favorite == "True":
-                # Check if the user has already added this post to favorites
+                # Add post to favorites
                 favorite_post, created = FavoritePost.objects.get_or_create(user=user, post=post)
-                # Update the is_check field based on the checkbox value
                 favorite_post.is_check = True
                 favorite_post.save()
-                # post.save()
-                return redirect('post_detail', pk=post.pk)  # Redirect to a relevant page
             else:
-                try:
-                    favorite_post = FavoritePost.objects.get(post=post)
-                    favorite_post.is_check = False
-                    favorite_post.save()
-                    favorite_post.delete()
-                except FavoritePost.DoesNotExist:
-                    pass
+                # Remove post from favorites
+                FavoritePost.objects.filter(user_id=user.id, post=post).delete()
 
-                return redirect('post_detail', pk=post.pk)
+        return redirect('post_detail', pk=post.pk)
 
-        return redirect('post_detail', pk=post.pk)   # Redirect if not a POST request
+
+
+
+
 
 
 

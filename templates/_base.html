@@ -74,10 +74,17 @@
                                 </nav>
                             </div>
                             <!-- Header-btn -->
+                            {% if user.is_authenticated %}
+                                <p>
+                                {{ user.username }}
+                                </p>
+                            <a style="border-radius: 5px" href="{% url 'logout' %}" class="btn head-btn2">خروج</a>
+                            {% else %}
                             <div class="header-btn d-none f-right d-lg-block">
-                                <a style="border-radius: 5px" href="#" class="btn head-btn1">ثبت نام</a>
-                                <a style="border-radius: 5px" href="#" class="btn head-btn2">ورود</a>
+                                <a style="border-radius: 5px" href="{% url 'signup' %}" class="btn head-btn1">ثبت نام</a>
+                                <a style="border-radius: 5px" href="{% url 'login' %}" class="btn head-btn2">ورود</a>
                             </div>
+                            {% endif %}
                         </div>
                     </div>
                     <!-- Mobile Menu -->

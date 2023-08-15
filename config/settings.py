@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'crispy_forms',
 
     'post',
+    'account',
 ]
 
 MIDDLEWARE = [
@@ -86,7 +87,7 @@ DATABASES = {
         'NAME': 'job_linker',
         'USER': 'erfan',
         'PASSWORD': 'erfan',
-        'HOST': '172.18.0.4',
+        'HOST': '172.18.0.3',
         'PORT': '5432',
     }
 }
@@ -141,3 +142,6 @@ CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TIMEZONE = 'Asia/Tehran'
 CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
+
+LOGIN_REDIRECT_URL = 'post_list'
+LOGOUT_REDIRECT_URL = 'post_list'
