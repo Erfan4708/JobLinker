@@ -20,10 +20,11 @@
                                 <a href="#"><img src="{% static 'img/icon/job-list1.png' %}" alt=""
                                                  style="margin-right: 10px"></a>
                             </div>
-                            <div class="job-tittle" >
+                            <div class="job-tittle">
                                 <a href="#">
                                     <br>
-                                    <h4 dir="rtl" style="font-family: IRANSans;padding-right: 10px">{{ post.title }}</h4>
+                                    <h4 dir="rtl"
+                                        style="font-family: IRANSans;padding-right: 10px">{{ post.title }}</h4>
                                 </a>
                             </div>
                         </div>
@@ -55,6 +56,26 @@
                         <div class="small-section-tittle">
                             <h4 style="font-family: IRANSans">بررسی اجمالی</h4>
                         </div>
+                    {% if favorite_post.is_check == True %}
+
+                        <form method="post" action="{% url 'add_to_favorites' post.pk %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="check_favorite" id="check_favorite" value="False">
+                            <input type="hidden" name="user" value="{{ user.username }}">
+                            <button name="add_to_favorites" type="submit">حذف از نشان شده ها</button>
+                        </form>
+
+                    {% else %}
+
+                        <form method="post" action="{% url 'add_to_favorites' post.pk %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="check_favorite" id="check_favorite" value="True">
+                            <input type="hidden" name="user" value="{{ user.username }}">
+                            <button name="add_to_favorites" type="submit">نشان کردن</button>
+                        </form>
+
+                    {% endif %}
+
                         <ul style="font-family: IRANSans">
                             <li>منتشر شده:
                                 <span>
@@ -83,7 +104,8 @@
                         </ul>
 
                         <div class="apply-btn2 text-center" style="padding: 10px">
-                            <a href="{{ post.link }}" target="_blank" class="btn" style="font-family: IRANSans;font-size: medium;border-radius: 5px">ارسال رزومه</a>
+                            <a href="{{ post.link }}" target="_blank" class="btn"
+                               style="font-family: IRANSans;font-size: medium;border-radius: 5px">ارسال رزومه</a>
                         </div>
                     </div>
                 </div>

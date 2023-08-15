@@ -84,9 +84,9 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'job_linker',
-        'USER': 'root',
-        'PASSWORD': 'root',
-        'HOST': '172.20.0.3',
+        'USER': 'erfan',
+        'PASSWORD': 'erfan',
+        'HOST': '172.18.0.4',
         'PORT': '5432',
     }
 }

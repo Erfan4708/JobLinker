@@ -18,14 +18,11 @@ from selenium.common.exceptions import TimeoutException
 from selenium.common.exceptions import ElementNotInteractableException
 from django.db.models import Max
 
-
-
-
-
 # SELENIUM_GRID_HOST = os.environ.get('SELENIUM_GRID_HOST', 'localhost')
 
 print("Test Execution Started")
 options = webdriver.FirefoxOptions()
+
 
 @shared_task
 def jobinja_scrap():
@@ -33,7 +30,8 @@ def jobinja_scrap():
         command_executor='http://selenium-hub:4444/wd/hub',
         options=options,
     )
-    driver.get("https://jobinja.ir/jobs/category/it-software-web-development-jobs/%D8%A7%D8%B3%D8%AA%D8%AE%D8%AF%D8%A7%D9%85-%D9%88%D8%A8-%D8%A8%D8%B1%D9%86%D8%A7%D9%85%D9%87-%D9%86%D9%88%DB%8C%D8%B3-%D9%86%D8%B1%D9%85-%D8%A7%D9%81%D8%B2%D8%A7%D8%B1?preferred_before=1690617703&sort_by=published_at_desc")
+    driver.get(
+        "https://jobinja.ir/jobs/category/it-software-web-development-jobs/%D8%A7%D8%B3%D8%AA%D8%AE%D8%AF%D8%A7%D9%85-%D9%88%D8%A8-%D8%A8%D8%B1%D9%86%D8%A7%D9%85%D9%87-%D9%86%D9%88%DB%8C%D8%B3-%D9%86%D8%B1%D9%85-%D8%A7%D9%81%D8%B2%D8%A7%D8%B1?preferred_before=1690617703&sort_by=published_at_desc")
     wait = WebDriverWait(driver, 10)
     page = 1
     check = False
@@ -125,12 +123,13 @@ def jobinja_scrap():
                 continue
             except:
                 continue
-                
+
         page += 1
         driver.get(
             f"https://jobinja.ir/jobs/category/it-software-web-development-jobs/%D8%A7%D8%B3%D8%AA%D8%AE%D8%AF%D8%A7%D9%85-%D9%88%D8%A8-%D8%A8%D8%B1%D9%86%D8%A7%D9%85%D9%87-%D9%86%D9%88%DB%8C%D8%B3-%D9%86%D8%B1%D9%85-%D8%A7%D9%81%D8%B2%D8%A7%D8%B1?preferred_before=1690617703&sort_by=published_at_desc&page={page}")
         sleep(4)
     driver.quit()
+
 
 @shared_task
 def jobvision_scrap():

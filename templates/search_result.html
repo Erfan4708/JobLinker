@@ -66,62 +66,64 @@
 {% endblock header %}
 
 {% block content %}
+    {% if search_result %}
+        {% for result in search_result %}
 
-    {% for result in search_result %}
-
-        <div class="single-job-items mb-30" style="margin-bottom: 30px;font-family: IRANSans">
-            <div class="items-link f-left">
-                <a href="{% url 'post_detail' result.id %}">مشاهده آگهی</a>
-                <span style="font-size: small; text-align: center" dir="rtl">
+            <div class="single-job-items mb-30" style="margin-bottom: 30px;font-family: IRANSans">
+                <div class="items-link f-left">
+                    <a href="{% url 'post_detail' result.id %}">مشاهده آگهی</a>
+                    <span style="font-size: small; text-align: center" dir="rtl">
                     {% if result.date_modified == "(امروز)" %}
-                    امروز منتشر شده
+                        امروز منتشر شده
                     {% elif result.date_modified == 0 %}
                         امروز منتشر شده
 
                     {% elif result.date_modified == -1 %}
-                    <p style="font-family: IRANSans;background-color: #f65151;border-radius: 5px;color: white;">فوری</p>
+                        <p style="font-family: IRANSans;background-color: #f65151;border-radius: 5px;color: white;">فوری</p>
                     {% else %}
-                         {{ result.date_modified }}  روز پیش منتشر شده
+                        {{ result.date_modified }}  روز پیش منتشر شده
                     {% endif %}
                 </span>
-            </div>
-
-            <div class="job-items" style="display: flex; align-items: center;">
-                <div class="job-tittle" style="flex: 1;">
-                    <a href="{% url 'post_detail' result.id %}">
-                        <h4 dir="rtl"
-                            style="font-size: large; font-family: 'IRANSans'; margin-bottom: 10px;text-align: right">{{ result.title }}</h4>
-                    </a>
-                    <ul style="text-align: right; margin-right: 0;">
-                        <li>
-                             {% if result.website == "jobinja" %}
-                                جابینجا
-                            {% elif result.website == "job_vision" %}
-                                جاب ویژن
-                            {% endif %}
-                        </li>
-                        <li>{{ result.company_name }}</li>
-                        <li>{{ result.location }} <i class="fas fa-map-marker-alt"></i></li>
-                    </ul>
                 </div>
-                <div class="company-img" style="margin-left: 20px;">
-                    <a href="{% url 'post_detail' result.id %}">
-                        <img src="{% static 'img/icon/job-list1.png' %}" alt="">
-                    </a>
+
+                <div class="job-items" style="display: flex; align-items: center;">
+                    <div class="job-tittle" style="flex: 1;">
+                        <a href="{% url 'post_detail' result.id %}">
+                            <h4 dir="rtl"
+                                style="font-size: large; font-family: 'IRANSans'; margin-bottom: 10px;text-align: right">{{ result.title }}</h4>
+                        </a>
+                        <ul style="text-align: right; margin-right: 0;">
+                            <li>
+                                {% if result.website == "jobinja" %}
+                                    جابینجا
+                                {% elif result.website == "job_vision" %}
+                                    جاب ویژن
+                                {% endif %}
+                            </li>
+                            <li>{{ result.company_name }}</li>
+                            <li>{{ result.location }} <i class="fas fa-map-marker-alt"></i></li>
+                        </ul>
+                    </div>
+                    <div class="company-img" style="margin-left: 20px;">
+                        <a href="{% url 'post_detail' result.id %}">
+                            <img src="{% static 'img/icon/job-list1.png' %}" alt="">
+                        </a>
+                    </div>
                 </div>
             </div>
-        </div>
-
-    {% endfor %}
- <div class="navbar subscribe_text" >
+        {% endfor %}
+    {% else %}
+        <p>نتیجه‌ای یافت نشد.</p>
+    {% endif %}
+    <div class="navbar subscribe_text">
     <nav aria-label="Page navigation example" style="margin: auto">
         <ul class="pagination justify-content-end">
-            {% if page_obj.has_previous %}
+            {% if search_result.has_previous %}
                 <li class="page-item">
                     <a class="page-link" href="?page=1">First</a>
                 </li>
                 <li class="page-item">
-                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}" tabindex="-1">Previous</a>
+                    <a class="page-link" href="?page={{ search_result.previous_page_number }}" tabindex="-1">Previous</a>
                 </li>
             {% else %}
                 <li class="page-item disabled">
@@ -132,24 +134,24 @@
                 </li>
             {% endif %}
 
-            {% for num in page_obj.paginator.page_range %}
-                {% if page_obj.number == num %}
+            {% for num in search_result.paginator.page_range %}
+                {% if search_result.number == num %}
                     <li class="page-item active"><a class="page-link" href="#">{{ num }}</a></li>
                 {% else %}
-                    {% if num > page_obj.number|add:-3 and num < page_obj.number|add:3 %}
+                    {% if num > search_result.number|add:-3 and num < search_result.number|add:3 %}
                         <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
-                    {% elif num == page_obj.paginator.page_range.1 or num == page_obj.paginator.page_range.1 %}
+                    {% elif num == search_result.paginator.page_range.1 or num == search_result.paginator.page_range.1 %}
                         <li class="page-item disabled"><a class="page-link" href="#">...</a></li>
                     {% endif %}
                 {% endif %}
             {% endfor %}
 
-            {% if page_obj.has_next %}
+            {% if search_result.has_next %}
                 <li class="page-item">
-                    <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+                    <a class="page-link" href="?page={{ search_result.next_page_number }}">Next</a>
                 </li>
                 <li class="page-item">
-                    <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
+                    <a class="page-link" href="?page={{ search_result.paginator.num_pages }}">Last</a>
                 </li>
             {% else %}
                 <li class="page-item disabled">
@@ -162,5 +164,7 @@
         </ul>
     </nav>
 </div>
+
+
 
 {% endblock content %}
