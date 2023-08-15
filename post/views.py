@@ -19,14 +19,7 @@ from django.urls import reverse
 from django.db.models import Count
 from django.shortcuts import get_object_or_404
 
-class CountJobCountsMixin:
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['jobinja_posts_count'] = Post.objects.filter(website='jobinja').count()
-        context['jobvision_posts_count'] = Post.objects.filter(website='job_vision').count()
-        return context
-
-class PostListView(CountJobCountsMixin, generic.ListView):
+class PostListView(generic.ListView):
     model = Post
     paginate_by = 20
     template_name = 'post_list.html'
@@ -47,7 +40,7 @@ class FavoriteListView(generic.ListView):
             return FavoritePost.objects.none()
 
 
-class PostDetailView(CountJobCountsMixin, generic.DetailView):
+class PostDetailView(generic.DetailView):
     model = Post
     template_name = 'post_detail.html'
 

@@ -3,7 +3,6 @@ from django.contrib.auth import login
 from django.shortcuts import render, redirect
 from django.views import View
 
-
 class SignUpView(View):
     def get(self, request):
         form = UserCreationForm()
