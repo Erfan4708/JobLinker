@@ -45,12 +45,42 @@
                                 <div class="select-form text-center" style="font-family: IRANSans;">
                                     <div class="select-itms">
                                         <select name="location" id="select1">
-    <option value="">همه شهر ها</option>
-    <option value="تهران" {% if selected_location == "تهران" %}selected{% endif %}>تهران</option>
-    <option value="مشهد" {% if selected_location == "مشهد" %}selected{% endif %}>مشهد</option>
-    <option value="اصفهان" {% if selected_location == "اصفهان" %}selected{% endif %}>اصفهان</option>
-    <option value="اراک" {% if selected_location == "اراک" %}selected{% endif %}>اراک</option>
-</select>
+                                            <option value="">همه شهر ها</option>
+                                            <option value="تهران"
+                                                    {% if selected_location == "تهران" %}selected{% endif %}>تهران
+                                            </option>
+                                            <option value="مشهد"
+                                                    {% if selected_location == "مشهد" %}selected{% endif %}>مشهد
+                                            </option>
+                                            <option value="اصفهان"
+                                                    {% if selected_location == "اصفهان" %}selected{% endif %}>اصفهان
+                                            </option>
+                                            <option value="اراک"
+                                                    {% if selected_location == "اراک" %}selected{% endif %}>اراک
+                                            </option>
+                                            <option value="تبریز"
+                                                    {% if selected_location == "تبریز" %}selected{% endif %}>تبریز
+                                            </option>
+                                            <option value="قم"
+                                                    {% if selected_location == "قم" %}selected{% endif %}>قم
+                                            </option>
+                                            <option value="یزد"
+                                                    {% if selected_location == "یزد" %}selected{% endif %}>یزد
+                                            </option>
+                                            <option value="شیراز"
+                                                    {% if selected_location == "شیراز" %}selected{% endif %}>شیراز
+                                            </option>
+                                            <option value="مازندران"
+                                                    {% if selected_location == "مازندران" %}selected{% endif %}>مازندران
+                                            </option>
+                                            <option value="کردستان"
+                                                    {% if selected_location == "کردستان" %}selected{% endif %}>کردستان
+                                            </option>
+                                            <option value="البرز"
+                                                    {% if selected_location == "البرز" %}selected{% endif %}>البرز
+                                            </option>
+                                        </select>
+
                                     </div>
                                 </div>
                                 <div class="search-form">
@@ -59,11 +89,11 @@
                                 </div>
                         </div>
                         </form>
-                        </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
     </div>
     <!-- slider Area End-->
 {% endblock header %}
@@ -109,20 +139,24 @@
                     </div>
                     <div class="company-img" style="margin-left: 20px;">
                         <a href="{% url 'post_detail' result.id %}">
-                            <img src="{% static 'img/icon/job-list1.png' %}" alt="">
+                            {% if post.website == "jobinja" %}
+                                <img src="{% static 'img/icon/Jobinja-Logo.png' %}" alt="">
+                            {% elif post.website == "job_vision" %}
+                                <img src="{% static 'img/icon/jobvision.png' %}" alt="">
+                            {% endif %}
                         </a>
                     </div>
                 </div>
             </div>
         {% endfor %}
     {% else %}
-         <div class="alert alert-primary text-center" role="alert" dir="rtl">
+        <div class="alert alert-primary text-center" role="alert" dir="rtl">
             <span style="font-family: IRANSans" class="text-center" dir="rtl">
                 نتیجه‌ای یافت نشد.
             </span>
-            </div>
+        </div>
     {% endif %}
-   <div class="navbar subscribe_text">
+    <div class="navbar subscribe_text">
         <nav aria-label="Page navigation example" style="margin: auto">
             <ul class="pagination justify-content-end">
                 {% if page_obj.has_previous %}
@@ -130,7 +164,8 @@
                         <a class="page-link" href="?page=1" style="font-family: IRANSans;">اولین</a>
                     </li>
                     <li class="page-item">
-                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}" tabindex="-1" style="font-family: IRANSans;">قبلی</a>
+                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}" tabindex="-1"
+                           style="font-family: IRANSans;">قبلی</a>
                     </li>
                 {% else %}
                     <li class="page-item disabled">
@@ -143,22 +178,27 @@
 
                 {% for num in page_obj.paginator.page_range %}
                     {% if page_obj.number == num %}
-                        <li class="page-item active"><a class="page-link" href="#" style="font-family: IRANSans;">{{ num }}</a></li>
+                        <li class="page-item active"><a class="page-link" href="#"
+                                                        style="font-family: IRANSans;">{{ num }}</a></li>
                     {% else %}
                         {% if num > page_obj.number|add:-3 and num < page_obj.number|add:3 %}
-                            <li class="page-item"><a class="page-link" href="?page={{ num }}" style="font-family: IRANSans;">{{ num }}</a></li>
+                            <li class="page-item"><a class="page-link" href="?page={{ num }}"
+                                                     style="font-family: IRANSans;">{{ num }}</a></li>
                         {% elif num == page_obj.paginator.page_range.1 or num == page_obj.paginator.page_range.1 %}
-                            <li class="page-item disabled"><a class="page-link" href="#" style="font-family: IRANSans;">...</a></li>
+                            <li class="page-item disabled"><a class="page-link" href="#" style="font-family: IRANSans;">...</a>
+                            </li>
                         {% endif %}
                     {% endif %}
                 {% endfor %}
 
                 {% if page_obj.has_next %}
                     <li class="page-item">
-                        <a class="page-link" href="?page={{ page_obj.next_page_number }}" style="font-family: IRANSans;">بعدی</a>
+                        <a class="page-link" href="?page={{ page_obj.next_page_number }}"
+                           style="font-family: IRANSans;">بعدی</a>
                     </li>
                     <li class="page-item">
-                        <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}" style="font-family: IRANSans;">آخرین</a>
+                        <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}"
+                           style="font-family: IRANSans;">آخرین</a>
                     </li>
                 {% else %}
                     <li class="page-item disabled">

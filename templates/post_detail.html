@@ -17,8 +17,11 @@
                     <div class="single-job-items mb-50">
                         <div class="job-items">
                             <div class="company-img company-img-details">
-                                <a href="#"><img src="{% static 'img/icon/job-list1.png' %}" alt=""
-                                                 style="margin-right: 10px"></a>
+                                <a href="#"> {% if post.website == "jobinja" %}
+                                    <img src="{% static 'img/icon/Jobinja-Logo.png' %}" alt="">
+                                {% elif post.website == "job_vision" %}
+                                    <img src="{% static 'img/icon/jobvision.png' %}" alt="">
+                                {% endif %}</a>
                             </div>
                             <div class="job-tittle">
                                 <a href="#">
@@ -89,32 +92,38 @@
                             <a href="{{ post.link }}" target="_blank" class="btn"
                                style="font-family: IRANSans;font-size: medium;border-radius: 5px">ارسال رزومه</a>
                         </div>
-                    <div class="apply-btn2 text-center" style="padding: 10px">
-                     {% if user.is_authenticated %}
-                        {% if favorite_post.is_check == True %}
-                            <form method="post" action="{% url 'add_to_favorites' post.pk %}">
-                                {% csrf_token %}
-                                <input type="hidden" name="check_favorite" id="check_favorite" value="False">
-                                <input type="hidden" name="user" value="{{ user.username }}">
-                                <button name="add_to_favorites" type="submit" style="font-family: IRANSans; border-radius: 5px; background-color: #242B5E; font-size: small">حذف از نشان شده ها</button>
-                            </form>
-                        {% else %}
-                            <form method="post" action="{% url 'add_to_favorites' post.pk %}">
-                                {% csrf_token %}
-                                <input type="hidden" name="check_favorite" id="check_favorite" value="True">
-                                {% if user.is_authenticated %}
-                                    <input type="hidden" name="user" value="{{ user.username }}">
-                                {% endif %}
+                        <div class="apply-btn2 text-center" style="padding: 10px">
+                            {% if user.is_authenticated %}
+                                {% if favorite_post.is_check == True %}
+                                    <form method="post" action="{% url 'add_to_favorites' post.pk %}">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="check_favorite" id="check_favorite" value="False">
+                                        <input type="hidden" name="user" value="{{ user.username }}">
+                                        <button name="add_to_favorites" type="submit"
+                                                style="font-family: IRANSans; border-radius: 5px; background-color: #242B5E; font-size: small">
+                                            حذف از نشان شده ها
+                                        </button>
+                                    </form>
+                                {% else %}
+                                    <form method="post" action="{% url 'add_to_favorites' post.pk %}">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="check_favorite" id="check_favorite" value="True">
+                                        {% if user.is_authenticated %}
+                                            <input type="hidden" name="user" value="{{ user.username }}">
+                                        {% endif %}
 
-                                <button name="add_to_favorites" type="submit" style="font-family: IRANSans; border-radius: 5px; background-color: #242B5E; font-size: small">نشان کردن</button>
-                            </form>
-                        {% endif %}
-                    {% else %}
-                        <span style="font-family: IRANSans">
+                                        <button name="add_to_favorites" type="submit"
+                                                style="font-family: IRANSans; border-radius: 5px; background-color: #242B5E; font-size: small">
+                                            نشان کردن
+                                        </button>
+                                    </form>
+                                {% endif %}
+                            {% else %}
+                                <span style="font-family: IRANSans">
                         برای نشان کردن آگهی باید ابتدا وارد حساب کاربری خود شوید.
                         </span>
-                    {% endif %}
-                    </div>
+                            {% endif %}
+                        </div>
                     </div>
                 </div>
             </div>

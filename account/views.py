@@ -13,5 +13,5 @@ class SignUpView(View):
         if form.is_valid():
             user = form.save()
             login(request, user)
-            return redirect('post_list')  # Redirect to the desired page
+            return redirect('urgent_post_list')  # Redirect to the desired page
         return render(request, 'registration/signup.html', {'form': form})

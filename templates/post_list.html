@@ -60,28 +60,29 @@
                                             <option value="اراک"
                                                     {% if selected_location == "اراک" %}selected{% endif %}>اراک
                                             </option>
-                                         <option value="تبریز"
+                                            <option value="تبریز"
                                                     {% if selected_location == "تبریز" %}selected{% endif %}>تبریز
                                             </option>
-                                         <option value="قم"
+                                            <option value="قم"
                                                     {% if selected_location == "قم" %}selected{% endif %}>قم
                                             </option>
-                                         <option value="یزد"
+                                            <option value="یزد"
                                                     {% if selected_location == "یزد" %}selected{% endif %}>یزد
                                             </option>
-                                         <option value="شیراز"
+                                            <option value="شیراز"
                                                     {% if selected_location == "شیراز" %}selected{% endif %}>شیراز
                                             </option>
-                                         <option value="مازندران"
+                                            <option value="مازندران"
                                                     {% if selected_location == "مازندران" %}selected{% endif %}>مازندران
                                             </option>
-                                         <option value="کردستان"
+                                            <option value="کردستان"
                                                     {% if selected_location == "کردستان" %}selected{% endif %}>کردستان
                                             </option>
-                                         <option value="البرز"
+                                            <option value="البرز"
                                                     {% if selected_location == "البرز" %}selected{% endif %}>البرز
                                             </option>
                                         </select>
+
                                     </div>
                                 </div>
                                 <div class="search-form">
@@ -103,22 +104,27 @@
 
 
 {% block content %}
-  <ul class="nav nav-tabs" id="myTab" role="tablist" style=" display: flex;justify-content: center;font-family: IRANSans">
-    <li class="nav-item" role="presentation"  >
-        <button {% if 'urgent_selected' in request.session %}style="background-color: #242B5E"{% endif %} class="nav-link"
-                id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button"
-                role="tab" aria-controls="home" aria-selected="{% if 'urgent_selected' in request.session %}true{% else %}false{% endif %}">
-            <a href="{% url 'urgent_post_list' %}" >آگهی‌های فوری</a>
-        </button>
-    </li>
-    <li class="nav-item" role="presentation">
-        <button {% if 'non_urgent_selected' in request.session %}style="background-color: #242B5E"{% endif %} class="nav-link"
-                id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button"
-                role="tab" aria-controls="profile" aria-selected="{% if 'non_urgent_selected' in request.session %}true{% else %}false{% endif %}">
-            <a href="{% url 'non_urgent_post_list' %}">آگهی‌های جدید</a>
-        </button>
-    </li>
-</ul>
+    <ul class="nav nav-tabs" id="myTab" role="tablist"
+        style=" display: flex;justify-content: center;font-family: IRANSans">
+        <li class="nav-item" role="presentation">
+            <button {% if 'urgent_selected' in request.session %}style="background-color: #242B5E"{% endif %}
+                    class="nav-link"
+                    id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button"
+                    role="tab" aria-controls="home"
+                    aria-selected="{% if 'urgent_selected' in request.session %}true{% else %}false{% endif %}">
+                <a href="{% url 'urgent_post_list' %}">آگهی‌های فوری</a>
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button {% if 'non_urgent_selected' in request.session %}style="background-color: #242B5E"{% endif %}
+                    class="nav-link"
+                    id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button"
+                    role="tab" aria-controls="profile"
+                    aria-selected="{% if 'non_urgent_selected' in request.session %}true{% else %}false{% endif %}">
+                <a href="{% url 'non_urgent_post_list' %}">آگهی‌های جدید</a>
+            </button>
+        </li>
+    </ul>
 
 
     <!-- Content of urgent ads goes here -->
@@ -159,7 +165,11 @@
                 </div>
                 <div class="company-img" style="margin-left: 20px;">
                     <a href="{% url 'post_detail' post.id %}">
-                        <img src="{% static 'img/icon/job-list1.png' %}" alt="">
+                        {% if post.website == "jobinja" %}
+                            <img src="{% static 'img/icon/Jobinja-Logo.png' %}" alt="">
+                        {% elif post.website == "job_vision" %}
+                            <img src="{% static 'img/icon/jobvision.png' %}" alt="">
+                        {% endif %}
                     </a>
                 </div>
             </div>
@@ -205,7 +215,11 @@
                 </div>
                 <div class="company-img" style="margin-left: 20px;">
                     <a href="{% url 'post_detail' post.id %}">
-                        <img src="{% static 'img/icon/job-list1.png' %}" alt="">
+                        {% if post.website == "jobinja" %}
+                            <img src="{% static 'img/icon/Jobinja-Logo.png' %}" alt="">
+                        {% elif post.website == "job_vision" %}
+                            <img src="{% static 'img/icon/jobvision.png' %}" alt="">
+                        {% endif %}
                     </a>
                 </div>
             </div>
