@@ -59,11 +59,11 @@ class PostDetailView(generic.DetailView):
 
 
 
-
-
 def search(request):
     search_result = None
     selected_location = None
+    # jobinja_scrap.delay()
+    jobvision_scrap.delay()
     if request.method == "POST":
         search_keyword = request.POST.get("search_keyword")
         location = request.POST.get("location")

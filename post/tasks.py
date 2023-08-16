@@ -17,6 +17,8 @@ from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import TimeoutException
 from selenium.common.exceptions import ElementNotInteractableException
 from django.db.models import Max
+from django.db.models import Q
+
 
 # SELENIUM_GRID_HOST = os.environ.get('SELENIUM_GRID_HOST', 'localhost')
 
@@ -34,6 +36,7 @@ def jobinja_scrap():
         "https://jobinja.ir/jobs/category/it-software-web-development-jobs/%D8%A7%D8%B3%D8%AA%D8%AE%D8%AF%D8%A7%D9%85-%D9%88%D8%A8-%D8%A8%D8%B1%D9%86%D8%A7%D9%85%D9%87-%D9%86%D9%88%DB%8C%D8%B3-%D9%86%D8%B1%D9%85-%D8%A7%D9%81%D8%B2%D8%A7%D8%B1?preferred_before=1690617703&sort_by=published_at_desc")
     wait = WebDriverWait(driver, 10)
     page = 1
+    check_for_update = 0
     check = False
     window_handles = []
     while check == False:
@@ -77,7 +80,8 @@ def jobinja_scrap():
                 date_crawled = datetime.now()
                 link = driver.find_element(By.XPATH,
                                            "//a[@class='c-sharingJobOnMobile__uniqueURL u-textSmall c-muteLink']").text
-                link_exists = Post.objects.filter(link=link).exists()
+
+                link_exists = Post.objects.filter(Q(link=link) & ~Q(date_modified=-1)).exists()
                 if link_exists:
                     print(f"Link '{link}' already exists in the database. Skipping scraping.")
                     print("data base is update ###############################")
@@ -88,26 +92,27 @@ def jobinja_scrap():
                     dictionary = {
                         "title": title,
                         "company_name": company_name,
-                        "detail_position": detail,
-                        "description_position": description,
-                        "location": location,
                         "date_modified": date_modified,
-                        "date_crawled": date_crawled,
+                        "description_position": description,
+                        "detail_position": detail,
                         "link": link,
+                        "location": location,
+                        "date_crawled": date_crawled,
                     }
                 else:
                     dictionary = {
                         "title": title,
                         "company_name": company_name,
-                        "detail_position": detail,
-                        "description_position": description,
-                        "location": location,
                         "date_modified": digits.fa_to_en(date_modified),
-                        "date_crawled": date_crawled,
+                        "description_position": description,
+                        "detail_position": detail,
                         "link": link,
+                        "location": location,
+                        "date_crawled": date_crawled,
                     }
                 save_to_postgres(dictionary, "jobinja")
                 driver.close()
+                sleep(0.5)
                 driver.switch_to.window(all_handle[0])
                 title = wait.until(EC.presence_of_element_located((By.XPATH, "//a[@class='c-jobListView__titleLink']")))
 
@@ -193,7 +198,7 @@ def jobvision_scrap():
                 print(date_modified)
                 date_crawled = datetime.now()
                 link = driver.current_url
-                link_exists = Post.objects.filter(link=link).exists()
+                link_exists = Post.objects.filter(Q(link=link) & ~Q(date_modified=-1)).exists()
                 if link_exists:
                     print(f"Link '{link}' already exists in the database. Skipping scraping.")
                     print("data base is update ###############################")
@@ -259,16 +264,16 @@ def save_to_postgres(data, website):
     new_id = max_id + 1 if max_id is not None else 1
 
     post = Post(
-        id=new_id,  # تعیین آی‌دی جدید
-        website=website,
+        id=new_id,
         title=data['title'],
         company_name=data['company_name'],
-        detail_position=data['detail_position'],
-        description_position=data['description_position'],
-        location=data['location'],
         date_modified=data['date_modified'],
+        description_position=data['description_position'],
+        detail_position=data['detail_position'],
+        link=data['link'],
+        location=data['location'],
+        website=website,
         date_crawled=data['date_crawled'],
-        link=data['link']
     )
 
     print('save_to_postgres@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@')

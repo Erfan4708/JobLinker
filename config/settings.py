@@ -87,7 +87,7 @@ DATABASES = {
         'NAME': 'job_linker',
         'USER': 'erfan',
         'PASSWORD': 'erfan',
-        'HOST': '172.18.0.3',
+        'HOST': '172.18.0.2',
         'PORT': '5432',
     }
 }
