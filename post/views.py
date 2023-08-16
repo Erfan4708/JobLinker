@@ -63,7 +63,7 @@ def search(request):
     search_result = None
     selected_location = None
     # jobinja_scrap.delay()
-    jobvision_scrap.delay()
+    # jobvision_scrap.delay()
     if request.method == "POST":
         search_keyword = request.POST.get("search_keyword")
         location = request.POST.get("location")
@@ -78,7 +78,7 @@ def search(request):
         if location:
             q_condition &= Q(location__icontains=location)
 
-        search_result = Post.objects.filter(q_condition)
+        search_result = Post.objects.filter(q_condition).order_by('date_modified')
         selected_location = location
     return render(request, 'search_result.html', {'search_result': search_result, 'selected_location': selected_location})
 
@@ -103,11 +103,5 @@ class AddToFavoritesView(View):
                 FavoritePost.objects.filter(user_id=user.id, post=post).delete()
 
         return redirect('post_detail', pk=post.pk)
-
-
-
-
-
-
 
 
