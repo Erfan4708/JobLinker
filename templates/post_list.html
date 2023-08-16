@@ -60,6 +60,27 @@
                                             <option value="اراک"
                                                     {% if selected_location == "اراک" %}selected{% endif %}>اراک
                                             </option>
+                                         <option value="تبریز"
+                                                    {% if selected_location == "تبریز" %}selected{% endif %}>تبریز
+                                            </option>
+                                         <option value="قم"
+                                                    {% if selected_location == "قم" %}selected{% endif %}>قم
+                                            </option>
+                                         <option value="یزد"
+                                                    {% if selected_location == "یزد" %}selected{% endif %}>یزد
+                                            </option>
+                                         <option value="شیراز"
+                                                    {% if selected_location == "شیراز" %}selected{% endif %}>شیراز
+                                            </option>
+                                         <option value="مازندران"
+                                                    {% if selected_location == "مازندران" %}selected{% endif %}>مازندران
+                                            </option>
+                                         <option value="کردستان"
+                                                    {% if selected_location == "کردستان" %}selected{% endif %}>کردستان
+                                            </option>
+                                         <option value="البرز"
+                                                    {% if selected_location == "البرز" %}selected{% endif %}>البرز
+                                            </option>
                                         </select>
                                     </div>
                                 </div>
@@ -78,10 +99,30 @@
     <!-- slider Area End-->
 {% endblock header %}
 
+
+
+
 {% block content %}
+  <ul class="nav nav-tabs" id="myTab" role="tablist" style=" display: flex;justify-content: center;font-family: IRANSans">
+    <li class="nav-item" role="presentation"  >
+        <button {% if 'urgent_selected' in request.session %}style="background-color: #242B5E"{% endif %} class="nav-link"
+                id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button"
+                role="tab" aria-controls="home" aria-selected="{% if 'urgent_selected' in request.session %}true{% else %}false{% endif %}">
+            <a href="{% url 'urgent_post_list' %}" >آگهی‌های فوری</a>
+        </button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button {% if 'non_urgent_selected' in request.session %}style="background-color: #242B5E"{% endif %} class="nav-link"
+                id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button"
+                role="tab" aria-controls="profile" aria-selected="{% if 'non_urgent_selected' in request.session %}true{% else %}false{% endif %}">
+            <a href="{% url 'non_urgent_post_list' %}">آگهی‌های جدید</a>
+        </button>
+    </li>
+</ul>
 
-    {% for post in posts %}
 
+    <!-- Content of urgent ads goes here -->
+    {% for post in urgent_ads %}
         <div class="single-job-items mb-30" style="margin-bottom: 30px;font-family: IRANSans">
             <div class="items-link f-left">
                 <a href="{% url 'post_detail' post.id %}">مشاهده آگهی</a>
@@ -92,13 +133,12 @@
                         امروز منتشر شده
 
                     {% elif post.date_modified == -1 %}
-                        <p style="font-family: IRANSans;background-color: #f65151;border-radius: 5px;color: white;">فوری</p>
+                        <p style="font-family: IRANSans;background-color: #C93D31;border-radius: 5px;color: white;">فوری</p>
                     {% else %}
                         {{ post.date_modified }}  روز پیش منتشر شده
                     {% endif %}
                 </span>
             </div>
-
             <div class="job-items" style="display: flex; align-items: center;">
                 <div class="job-tittle" style="flex: 1;">
                     <a href="{% url 'post_detail' post.id %}">
@@ -126,6 +166,53 @@
         </div>
 
     {% endfor %}
+
+    <!-- Content of latest ads goes here -->
+    {% for post in non_urgent_ads %}
+        <div class="single-job-items mb-30" style="margin-bottom: 30px;font-family: IRANSans">
+            <div class="items-link f-left">
+                <a href="{% url 'post_detail' post.id %}">مشاهده آگهی</a>
+                <span style="font-size: small; text-align: center" dir="rtl">
+                    {% if post.date_modified == "(امروز)" %}
+                        امروز منتشر شده
+                    {% elif post.date_modified == 0 %}
+                        امروز منتشر شده
+
+                    {% elif post.date_modified == -1 %}
+                        <p style="font-family: IRANSans;background-color: #f65151;border-radius: 5px;color: white;">فوری</p>
+                    {% else %}
+                        {{ post.date_modified }}  روز پیش منتشر شده
+                    {% endif %}
+                </span>
+            </div>
+            <div class="job-items" style="display: flex; align-items: center;">
+                <div class="job-tittle" style="flex: 1;">
+                    <a href="{% url 'post_detail' post.id %}">
+                        <h4 dir="rtl"
+                            style="font-size: large; font-family: 'IRANSans'; margin-bottom: 10px;text-align: right">{{ post.title }}</h4>
+                    </a>
+                    <ul style="text-align: right; margin-right: 0;">
+                        <li>
+                            {% if post.website == "jobinja" %}
+                                جابینجا
+                            {% elif post.website == "job_vision" %}
+                                جاب ویژن
+                            {% endif %}
+                        </li>
+                        <li>{{ post.company_name }}</li>
+                        <li>{{ post.location }} <i class="fas fa-map-marker-alt"></i></li>
+                    </ul>
+                </div>
+                <div class="company-img" style="margin-left: 20px;">
+                    <a href="{% url 'post_detail' post.id %}">
+                        <img src="{% static 'img/icon/job-list1.png' %}" alt="">
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    {% endfor %}
+
     <div class="navbar subscribe_text">
         <nav aria-label="Page navigation example" style="margin: auto">
             <ul class="pagination justify-content-end">
@@ -134,7 +221,8 @@
                         <a class="page-link" href="?page=1" style="font-family: IRANSans;">اولین</a>
                     </li>
                     <li class="page-item">
-                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}" tabindex="-1" style="font-family: IRANSans;">قبلی</a>
+                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}" tabindex="-1"
+                           style="font-family: IRANSans;">قبلی</a>
                     </li>
                 {% else %}
                     <li class="page-item disabled">
@@ -147,22 +235,28 @@
 
                 {% for num in page_obj.paginator.page_range %}
                     {% if page_obj.number == num %}
-                        <li class="page-item active"><a class="page-link" href="#" style="font-family: IRANSans;">{{ num }}</a></li>
+                        <li class="page-item active"><a class="page-link" href="#"
+                                                        style="font-family: IRANSans;">{{ num }}</a></li>
                     {% else %}
                         {% if num > page_obj.number|add:-3 and num < page_obj.number|add:3 %}
-                            <li class="page-item"><a class="page-link" href="?page={{ num }}" style="font-family: IRANSans;">{{ num }}</a></li>
+                            <li class="page-item"><a class="page-link" href="?page={{ num }}"
+                                                     style="font-family: IRANSans;">{{ num }}</a></li>
                         {% elif num == page_obj.paginator.page_range.1 or num == page_obj.paginator.page_range.1 %}
-                            <li class="page-item disabled"><a class="page-link" href="#" style="font-family: IRANSans;">...</a></li>
+                            <li class="page-item disabled"><a class="page-link" href="#"
+                                                              style="font-family: IRANSans;">...</a>
+                            </li>
                         {% endif %}
                     {% endif %}
                 {% endfor %}
 
                 {% if page_obj.has_next %}
                     <li class="page-item">
-                        <a class="page-link" href="?page={{ page_obj.next_page_number }}" style="font-family: IRANSans;">بعدی</a>
+                        <a class="page-link" href="?page={{ page_obj.next_page_number }}"
+                           style="font-family: IRANSans;">بعدی</a>
                     </li>
                     <li class="page-item">
-                        <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}" style="font-family: IRANSans;">آخرین</a>
+                        <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}"
+                           style="font-family: IRANSans;">آخرین</a>
                     </li>
                 {% else %}
                     <li class="page-item disabled">

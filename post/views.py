@@ -19,12 +19,30 @@ from django.urls import reverse
 from django.db.models import Count
 from django.shortcuts import get_object_or_404
 
-class PostListView(generic.ListView):
+
+class UrgentPostListView(generic.ListView):
     model = Post
-    paginate_by = 20
     template_name = 'post_list.html'
-    ordering = ['date_modified']
-    context_object_name = 'posts'
+    paginate_by = 20
+    context_object_name = 'urgent_ads'
+
+    def get_queryset(self):
+        # انتخاب دکمه آگهی‌های فوری ذخیره می‌شود
+        self.request.session['urgent_selected'] = True
+        self.request.session.pop('non_urgent_selected', None)
+
+        return Post.objects.filter(date_modified=-1).order_by('date_modified')
+
+class NonUrgentPostListView(generic.ListView):
+    model = Post
+    template_name = 'post_list.html'
+    paginate_by = 20
+    context_object_name = 'non_urgent_ads'
+
+    def get_queryset(self):
+        self.request.session['non_urgent_selected'] = True
+        self.request.session.pop('urgent_selected', None)
+        return Post.objects.exclude(date_modified=-1).order_by('date_modified')
 
 
 class FavoriteListView(generic.ListView):
