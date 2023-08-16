@@ -139,9 +139,9 @@
                     </div>
                     <div class="company-img" style="margin-left: 20px;">
                         <a href="{% url 'post_detail' result.id %}">
-                            {% if post.website == "jobinja" %}
+                            {% if result.website == "jobinja" %}
                                 <img src="{% static 'img/icon/Jobinja-Logo.png' %}" alt="">
-                            {% elif post.website == "job_vision" %}
+                            {% elif result.website == "job_vision" %}
                                 <img src="{% static 'img/icon/jobvision.png' %}" alt="">
                             {% endif %}
                         </a>
