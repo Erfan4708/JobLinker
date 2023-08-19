@@ -35,13 +35,13 @@ JobLinker employs Selenium-powered web crawlers to scrape job listings from a cu
 
 **Scheduled Task Management:** JobLinker uses Celery Beat for task scheduling, which automates the periodic execution of web crawlers to update the job database with fresh listings.
 
-**Custom Driver Configuration:** You can configure your own driver settings in the `task.py` file to suit your requirements.
+**Custom Driver Configuration:** You can configure your own Webdriver settings in the `task.py` file to suit your requirements.
 
 ## Installation
 
 To run JobLinker locally, follow these steps:
 
-1. Clone the repository: `git clone https://github.com/your-username/joblinker.git`
+1. Clone the repository: `git clone https://github.com/Erfan4708/JobLinker`
 2. Navigate to the project directory: `cd joblinker`
 3. Install the required dependencies: `pip install -r requirements.txt`
 4. Set up your database configuration in `settings.py`
