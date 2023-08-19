@@ -84,11 +84,11 @@ WSGI_APPLICATION = 'config.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'postgres',
+        'NAME': 'name',
         'USER': 'root',
-        'PASSWORD': 'zJOTh8LtiLTGqRyjjm9n1b9X',
+        'PASSWORD': 'pass',
         'HOST': 'polly.iran.liara.ir',
-        'PORT': '34666',
+        'PORT': 'port',
     }
 }
 
@@ -133,6 +133,7 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
 
 # Celery
 CELERY_BROKER_URL = os.environ.get("CELERY_BROKER", "redis://redis:6379/0")
