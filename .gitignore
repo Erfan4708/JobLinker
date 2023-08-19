@@ -1,3 +1,7 @@
 *.exe
+start_beat.bat
+start_worker.bat
+supervisor.conf
+geckodriver.log
 venv/
 .idea/
