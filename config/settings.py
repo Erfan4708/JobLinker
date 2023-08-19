@@ -135,15 +135,6 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Celery
-# BROKER_URL = 'redis://:WIquWev1hdfIYqwvaTtQOawx@redis:6379/0'
-# CELERY_BROKER_URL = os.environ.get("CELERY_BROKER", "redis://:WIquWev1hdfIYqwvaTtQOawx@redis:6379/0")
-# CELERY_RESULT_BACKEND = os.environ.get("CELERY_BROKER", "redis://:WIquWev1hdfIYqwvaTtQOawx@redis:6379/0")
-# CELERY_ACCEPT_CONTENT = ['json']
-# CELERY_TASK_SERIALIZER = 'json'
-# CELERY_RESULT_SERIALIZER = 'json'
-# CELERY_TIMEZONE = 'Asia/Tehran'
-# CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
-# Celery
 CELERY_BROKER_URL = os.environ.get("CELERY_BROKER", "redis://redis:6379/0")
 CELERY_RESULT_BACKEND = os.environ.get("CELERY_BROKER", "redis://redis:6379/0")
 CELERY_ACCEPT_CONTENT = ['json']
