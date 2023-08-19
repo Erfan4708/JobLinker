@@ -9,7 +9,7 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="section-tittle text-center">
-                <h2 style="font-family: IRANSans;font-size: x-large; letter-spacing: -1px">جدید ترین آگهی ها</h2>
+                <h2 style="font-family: MyCustomFont;font-size: x-large; letter-spacing: -1px">جدید ترین آگهی ها</h2>
             </div>
         </div>
     </div>
@@ -28,74 +28,214 @@
                         <div class="col-xl-6 col-lg-9 col-md-10">
                             <div class="hero__caption text-center" style="justify-content: center;">
                                 {#                                    <h1>Find the most exciting startup jobs</h1>#}
-                                <h2 style="font-family: IRANSans;line-height: normal" class="text-center">همه ی آگهی های
-                                    سایت های کاریابی را یکجا ببینید</h2>
+                                <h4 style="font-family: MyCustomFont;line-height: normal" class="text-center">همه ی آگهی
+                                    های
+                                    سایت های کاریابی را یکجا ببینید</h4>
                             </div>
                             <br>
                         </div>
                     </div>
                     <!-- Search Box -->
                     <div class="row" style="justify-content: left;">
-                        <div class="col-xl-8">
+                        <div class="col-xl-8" style="background-color: white; border-radius: 15px">
                             <!-- form -->
                             <form action="{% url 'search' %}" class="search-box" name="form_filter" method="POST">
                                 {% csrf_token %}
                                 <div class="input-form">
-                                    <input style="font-family: IRANSans" type="text"
+                                    <input style="font-family: MyCustomFont; border-radius: 15px" type="text"
                                            placeholder="عنوان شغلی / مهارت یا ..." name="search_keyword">
                                 </div>
-                                <div class="select-form text-center" style="font-family: IRANSans;">
-                                    <div class="select-itms">
-                                        <select name="location" id="select1">
-                                            <option value="">همه شهر ها</option>
-                                            <option value="تهران"
-                                                    {% if selected_location == "تهران" %}selected{% endif %}>تهران
-                                            </option>
-                                            <option value="مشهد"
-                                                    {% if selected_location == "مشهد" %}selected{% endif %}>مشهد
-                                            </option>
-                                            <option value="اصفهان"
-                                                    {% if selected_location == "اصفهان" %}selected{% endif %}>اصفهان
-                                            </option>
-                                            <option value="اراک"
-                                                    {% if selected_location == "اراک" %}selected{% endif %}>اراک
-                                            </option>
-                                            <option value="تبریز"
-                                                    {% if selected_location == "تبریز" %}selected{% endif %}>تبریز
-                                            </option>
-                                            <option value="قم"
-                                                    {% if selected_location == "قم" %}selected{% endif %}>قم
-                                            </option>
-                                            <option value="یزد"
-                                                    {% if selected_location == "یزد" %}selected{% endif %}>یزد
-                                            </option>
-                                            <option value="شیراز"
-                                                    {% if selected_location == "شیراز" %}selected{% endif %}>شیراز
-                                            </option>
-                                            <option value="مازندران"
-                                                    {% if selected_location == "مازندران" %}selected{% endif %}>مازندران
-                                            </option>
-                                            <option value="کردستان"
-                                                    {% if selected_location == "کردستان" %}selected{% endif %}>کردستان
-                                            </option>
-                                            <option value="البرز"
-                                                    {% if selected_location == "البرز" %}selected{% endif %}>البرز
-                                            </option>
-                                        </select>
+                                <div class="select-form text-center" style="font-family: MyCustomFont;">
+                                    <select name="location" id="select2-location" class="custom-select" >
+                                        <option value="" class="selected-option text-center" >همه شهر ها</option>
+                                        <option type="hidden"
+                                                value="تهران"
+                                                class="option"
+                                                {% if selected_location == "تهران" %}selected{% endif %}>تهران
+                                        </option>
+                                        <option
+                                                value="مشهد"
+                                                class="option"
+                                                {% if selected_location == "مشهد" %}selected{% endif %}>مشهد
+                                        </option>
+                                        <option
+                                                value="اصفهان"
+                                                class="option"
+                                                {% if selected_location == "اصفهان" %}selected{% endif %}>اصفهان
+                                        </option>
+                                        <option
+                                                value="کرج"
+                                                class="option"
+                                                {% if selected_location == "کرج" %}selected{% endif %}>کرج
+                                        </option>
+                                        <option
+                                                value="شیراز"
+                                                class="option"
+                                                {% if selected_location == "شیراز" %}selected{% endif %}>شیراز
+                                        </option>
+                                        <option
+                                                value="قم"
+                                                class="option"
+                                                {% if selected_location == "قم" %}selected{% endif %}>قم
+                                        </option>
+                                        <option
+                                                value="ساری"
+                                                class="option"
+                                                {% if selected_location == "ساری" %}selected{% endif %}>ساری
+                                        </option>
+                                        <option
+                                                value="تبریز"
+                                                class="option"
+                                                {% if selected_location == "تبریز" %}selected{% endif %}>تبریز
+                                        </option>
+                                        <option
+                                                value="رشت"
+                                                class="option"
+                                                {% if selected_location == "رشت" %}selected{% endif %}>رشت
+                                        </option>
+                                        <option
+                                                value="اراک"
+                                                class="option"
+                                                {% if selected_location == "اراک" %}selected{% endif %}>اراک
+                                        </option>
+                                        <option
+                                                value="اهواز"
+                                                class="option"
+                                                {% if selected_location == "اهواز" %}selected{% endif %}>اهواز
+                                        </option>
+                                        <option
+                                                value="یزد"
+                                                class="option"
+                                                {% if selected_location == "یزد" %}selected{% endif %}>یزد
+                                        </option>
+                                        <option
+                                                value="قزوین"
+                                                class="option"
+                                                {% if selected_location == "قزوین" %}selected{% endif %}>قزوین
+                                        </option>
+                                        <option
+                                                value="کرمان"
+                                                class="option"
+                                                {% if selected_location == "کرمان" %}selected{% endif %}>کرمان
+                                        </option>
+                                        <option
+                                                value="هرمزگان"
+                                                class="option"
+                                                {% if selected_location == "هرمزگان" %}selected{% endif %}>هرمزگان
+                                        </option>
+                                        <option
+                                                value="بوشهر"
+                                                class="option"
+                                                {% if selected_location == "بوشهر" %}selected{% endif %}>بوشهر
+                                        </option>
+                                        <option
+                                                value="گلستان"
+                                                class="option"
+                                                {% if selected_location == "گلستان" %}selected{% endif %}>گلستان
+                                        </option>
+                                        <option
+                                                value="همدان"
+                                                class="option"
+                                                {% if selected_location == "همدان" %}selected{% endif %}>همدان
+                                        </option>
+                                        <option
+                                                value="ارومیه"
+                                                class="option"
+                                                {% if selected_location == "ارومیه" %}selected{% endif %}>ارومیه
+                                        </option>
+                                        <option
+                                                value="زنجان"
+                                                class="option"
+                                                {% if selected_location == "زنجان" %}selected{% endif %}>زنجان
+                                        </option>
+                                        <option
+                                                value="زاهدان"
+                                                class="option"
+                                                {% if selected_location == "زاهدان" %}selected{% endif %}>زاهدان
+                                        </option>
+                                        <option
+                                                value="سمنان"
+                                                class="option"
+                                                {% if selected_location == "سمنان" %}selected{% endif %}>سمنان
+                                        </option>
+                                        <option
+                                                value="کرمانشاه"
+                                                class="option"
+                                                {% if selected_location == "کرمانشاه" %}selected{% endif %}>کرمانشاه
+                                        </option>
+                                        <option
+                                                value="اردبیل"
+                                                class="option"
+                                                {% if selected_location == "اردبیل" %}selected{% endif %}>اردبیل
+                                        </option>
+                                        <option
+                                                value="بجنورد"
+                                                class="option"
+                                                {% if selected_location == "بجنورد" %}selected{% endif %}>بجنورد
+                                        </option>
+                                        <option
+                                                value="سنندج"
+                                                class="option"
+                                                {% if selected_location == "سنندج" %}selected{% endif %}>سنندج
+                                        </option>
+                                        <option
+                                                value="کردستان"
+                                                class="option"
+                                                {% if selected_location == "کردستان" %}selected{% endif %}>کردستان
+                                        </option>
+                                        <option
+                                                value="خرم آباد"
+                                                class="option"
+                                                {% if selected_location == "خرم آباد" %}selected{% endif %}>خرم آباد
+                                        </option>
+                                        <option
+                                                value="کهکیلویه و بویراحمد"
+                                                class="option"
+                                                {% if selected_location == "کهکیلویه و بویراحمد" %}selected{% endif %}>
+                                            کهکیلویه و بویراحمد
+                                        </option>
+                                        <option
+                                                value="بیرجند"
+                                                class="option"
+                                                {% if selected_location == "بیرجند" %}selected{% endif %}>بیرجند
+                                        </option>
+                                        <option
+                                                value="ایلام"
+                                                class="option"
+                                                {% if selected_location == "ایلام" %}selected{% endif %}>ایلام
+                                        </option>
 
-                                    </div>
+
+                                    </select>
+                                <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // مخفی کردن تمام گزینه‌ها به جز گزینه پیشفرض
+            $(".option").not(".selected-option").hide();
+
+            // تغییر انتخاب گزینه و نمایش مربوط به آن
+            $("select").change(function() {
+                var selectedLocation = $(this).val();
+                $(".option").hide(); // مخفی کردن تمام گزینه‌ها
+                $(".option[value='" + selectedLocation + "']").show(); // نمایش گزینه انتخاب شده
+            });
+        });
+    </script>
+
                                 </div>
                                 <div class="search-form">
-                                    <a href="#" style="font-family: IRANSans" class="button-like-link"
+                                    <a href="#" style="font-family: MyCustomFont; border-radius: 15px"
+                                       class="button-like-link"
                                        onclick="submitForm(); return false;">جستجو</a>
                                 </div>
+                            </form>
+
+
                         </div>
-                        </form>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
     </div>
     <!-- slider Area End-->
 {% endblock header %}
@@ -105,7 +245,7 @@
 
 {% block content %}
     <ul class="nav nav-tabs" id="myTab" role="tablist"
-        style=" display: flex;justify-content: center;font-family: IRANSans">
+        style=" display: flex;justify-content: center;font-family: MyCustomFont">
         <li class="nav-item" role="presentation">
             <button {% if 'urgent_selected' in request.session %}style="background-color: #242B5E"{% endif %}
                     class="nav-link"
@@ -129,7 +269,7 @@
 
     <!-- Content of urgent ads goes here -->
     {% for post in urgent_ads %}
-        <div class="single-job-items mb-30" style="margin-bottom: 30px;font-family: IRANSans">
+        <div class="single-job-items mb-30" style="margin-bottom: 30px;font-family: MyCustomFont">
             <div class="items-link f-left">
                 <a href="{% url 'post_detail' post.id %}">مشاهده آگهی</a>
                 <span style="font-size: small; text-align: center" dir="rtl">
@@ -139,7 +279,7 @@
                         امروز منتشر شده
 
                     {% elif post.date_modified == -1 %}
-                        <p style="font-family: IRANSans;background-color: #C93D31;border-radius: 5px;color: white;">فوری</p>
+                        <p style="font-family: MyCustomFont;background-color: #C93D31;border-radius: 5px;color: white;">فوری</p>
                     {% else %}
                         {{ post.date_modified }}  روز پیش منتشر شده
                     {% endif %}
@@ -149,7 +289,7 @@
                 <div class="job-tittle" style="flex: 1;">
                     <a href="{% url 'post_detail' post.id %}">
                         <h4 dir="rtl"
-                            style="font-size: large; font-family: 'IRANSans'; margin-bottom: 10px;text-align: right">{{ post.title }}</h4>
+                            style="font-size: large; font-family: MyCustomFont; margin-bottom: 10px;text-align: right">{{ post.title }}</h4>
                     </a>
                     <ul style="text-align: right; margin-right: 0;">
                         <li>
@@ -179,7 +319,7 @@
 
     <!-- Content of latest ads goes here -->
     {% for post in non_urgent_ads %}
-        <div class="single-job-items mb-30" style="margin-bottom: 30px;font-family: IRANSans">
+        <div class="single-job-items mb-30" style="margin-bottom: 30px;font-family: MyCustomFont">
             <div class="items-link f-left">
                 <a href="{% url 'post_detail' post.id %}">مشاهده آگهی</a>
                 <span style="font-size: small; text-align: center" dir="rtl">
@@ -189,7 +329,7 @@
                         امروز منتشر شده
 
                     {% elif post.date_modified == -1 %}
-                        <p style="font-family: IRANSans;background-color: #f65151;border-radius: 5px;color: white;">فوری</p>
+                        <p style="font-family: MyCustomFont;background-color: #f65151;border-radius: 5px;color: white;">فوری</p>
                     {% else %}
                         {{ post.date_modified }}  روز پیش منتشر شده
                     {% endif %}
@@ -199,7 +339,7 @@
                 <div class="job-tittle" style="flex: 1;">
                     <a href="{% url 'post_detail' post.id %}">
                         <h4 dir="rtl"
-                            style="font-size: large; font-family: 'IRANSans'; margin-bottom: 10px;text-align: right">{{ post.title }}</h4>
+                            style="font-size: large; font-family: MyCustomFont; margin-bottom: 10px;text-align: right">{{ post.title }}</h4>
                     </a>
                     <ul style="text-align: right; margin-right: 0;">
                         <li>
@@ -232,32 +372,32 @@
             <ul class="pagination justify-content-end">
                 {% if page_obj.has_previous %}
                     <li class="page-item">
-                        <a class="page-link" href="?page=1" style="font-family: IRANSans;">اولین</a>
+                        <a class="page-link" href="?page=1" style="font-family: MyCustomFont;">اولین</a>
                     </li>
                     <li class="page-item">
                         <a class="page-link" href="?page={{ page_obj.previous_page_number }}" tabindex="-1"
-                           style="font-family: IRANSans;">قبلی</a>
+                           style="font-family: MyCustomFont;">قبلی</a>
                     </li>
                 {% else %}
                     <li class="page-item disabled">
-                        <a class="page-link" href="#" tabindex="-1" style="font-family: IRANSans;">اولین</a>
+                        <a class="page-link" href="#" tabindex="-1" style="font-family: MyCustomFont;">اولین</a>
                     </li>
                     <li class="page-item disabled">
-                        <a class="page-link" href="#" tabindex="-1" style="font-family: IRANSans;">قبلی</a>
+                        <a class="page-link" href="#" tabindex="-1" style="font-family: MyCustomFont;">قبلی</a>
                     </li>
                 {% endif %}
 
                 {% for num in page_obj.paginator.page_range %}
                     {% if page_obj.number == num %}
                         <li class="page-item active"><a class="page-link" href="#"
-                                                        style="font-family: IRANSans;">{{ num }}</a></li>
+                                                        style="font-family: MyCustomFont;">{{ num }}</a></li>
                     {% else %}
                         {% if num > page_obj.number|add:-3 and num < page_obj.number|add:3 %}
                             <li class="page-item"><a class="page-link" href="?page={{ num }}"
-                                                     style="font-family: IRANSans;">{{ num }}</a></li>
+                                                     style="font-family: MyCustomFont;">{{ num }}</a></li>
                         {% elif num == page_obj.paginator.page_range.1 or num == page_obj.paginator.page_range.1 %}
                             <li class="page-item disabled"><a class="page-link" href="#"
-                                                              style="font-family: IRANSans;">...</a>
+                                                              style="font-family: MyCustomFont;">...</a>
                             </li>
                         {% endif %}
                     {% endif %}
@@ -266,18 +406,18 @@
                 {% if page_obj.has_next %}
                     <li class="page-item">
                         <a class="page-link" href="?page={{ page_obj.next_page_number }}"
-                           style="font-family: IRANSans;">بعدی</a>
+                           style="font-family: MyCustomFont;">بعدی</a>
                     </li>
                     <li class="page-item">
                         <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}"
-                           style="font-family: IRANSans;">آخرین</a>
+                           style="font-family: MyCustomFont;">آخرین</a>
                     </li>
                 {% else %}
                     <li class="page-item disabled">
-                        <a class="page-link" href="#" tabindex="-1" style="font-family: IRANSans;">بعدی</a>
+                        <a class="page-link" href="#" tabindex="-1" style="font-family: MyCustomFont;">بعدی</a>
                     </li>
                     <li class="page-item disabled">
-                        <a class="page-link" href="#" tabindex="-1" style="font-family: IRANSans;">آخرین</a>
+                        <a class="page-link" href="#" tabindex="-1" style="font-family: MyCustomFont;">آخرین</a>
                     </li>
                 {% endif %}
             </ul>

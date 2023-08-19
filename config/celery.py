@@ -4,15 +4,27 @@ from celery import Celery
 from celery.schedules import crontab
 from celery.schedules import timedelta
 
-
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings")
-app = Celery("config", broker=os.environ.get("CELERY_BROKER", "redis://redis:6379/0"))
+app = Celery("config")
 app.config_from_object("django.conf:settings", namespace="CELERY")
 app.autodiscover_tasks()
 
+@app.task(bind=True)
+def debug_task(self):
+    print(f'Request: {self.request!r}')
+
+
 app.conf.beat_schedule = {
-    "my_task_every_2_seconds": {
+    "jobinja_scrap_task": {
         "task": "post.tasks.jobinja_scrap",
-        "schedule": timedelta(hours=6),
+        "schedule": timedelta(minutes=30),
+    },
+    "jobvision_scrap_task": {
+        "task": "post.tasks.jobvision_scrap",
+        "schedule": timedelta(minutes=30),
+    },
+    "update_database_task": {
+        "task": "post.tasks.update_database",
+        "schedule": crontab(hour=0, minute=0),
     },
 }

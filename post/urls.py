@@ -2,7 +2,7 @@ from django.urls import path, include
 from . import views
 
 urlpatterns = [
-    path('urgent-posts/', views.UrgentPostListView.as_view(), name='urgent_post_list'),
+    path('', views.UrgentPostListView.as_view(), name='urgent_post_list'),
     path('non-urgent-posts/', views.NonUrgentPostListView.as_view(), name='non_urgent_post_list'),
     path('<int:pk>/', views.PostDetailView.as_view(), name='post_detail'),
     path('search/', views.search, name='search'),

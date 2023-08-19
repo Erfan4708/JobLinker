@@ -27,7 +27,7 @@
                                 <a href="#">
                                     <br>
                                     <h4 dir="rtl"
-                                        style="font-family: IRANSans;padding-right: 10px">{{ post.title }}</h4>
+                                        style="font-family: MyCustomFont;padding-right: 10px">{{ post.title }}</h4>
                                 </a>
                             </div>
                         </div>
@@ -38,7 +38,7 @@
                         <div class="post-details1 mb-50" dir="rtl" style="text-align: right">
                             <!-- Small Section Tittle -->
                             <div class="small-section-tittle">
-                                <h4 style="font-family: IRANSans">درباره شغل</h4>
+                                <h4 style="font-family: MyCustomFont">درباره شغل</h4>
                             </div>
                             <p>{{ post.detail_position|linebreaksbr }}</p>
                         </div>
@@ -57,11 +57,11 @@
                     <div class="post-details3  mb-50">
                         <!-- Small Section Tittle -->
                         <div class="small-section-tittle">
-                            <h4 style="font-family: IRANSans">بررسی اجمالی</h4>
+                            <h4 style="font-family: MyCustomFont">بررسی اجمالی</h4>
                         </div>
 
 
-                        <ul style="font-family: IRANSans">
+                        <ul style="font-family: MyCustomFont">
                             <li>منتشر شده:
                                 <span>
                             {% if post.date_modified == 0 %}
@@ -90,7 +90,7 @@
 
                         <div class="apply-btn2 text-center" style="padding: 10px">
                             <a href="{{ post.link }}" target="_blank" class="btn"
-                               style="font-family: IRANSans;font-size: medium;border-radius: 5px">ارسال رزومه</a>
+                               style="font-family: MyCustomFont;font-size: medium;border-radius: 5px">ارسال رزومه</a>
                         </div>
                         <div class="apply-btn2 text-center" style="padding: 10px">
                             {% if user.is_authenticated %}
@@ -100,7 +100,7 @@
                                         <input type="hidden" name="check_favorite" id="check_favorite" value="False">
                                         <input type="hidden" name="user" value="{{ user.username }}">
                                         <button name="add_to_favorites" type="submit"
-                                                style="font-family: IRANSans; border-radius: 5px; background-color: #242B5E; font-size: small">
+                                                style="font-family: MyCustomFont; border-radius: 5px; background-color: #242B5E; font-size: small">
                                             حذف از نشان شده ها
                                         </button>
                                     </form>
@@ -113,13 +113,13 @@
                                         {% endif %}
 
                                         <button name="add_to_favorites" type="submit"
-                                                style="font-family: IRANSans; border-radius: 5px; background-color: #242B5E; font-size: small">
+                                                style="font-family: MyCustomFont; border-radius: 5px; background-color: #242B5E; font-size: small">
                                             نشان کردن
                                         </button>
                                     </form>
                                 {% endif %}
                             {% else %}
-                                <span style="font-family: IRANSans">
+                                <span style="font-family: MyCustomFont">
                         برای نشان کردن آگهی باید ابتدا وارد حساب کاربری خود شوید.
                         </span>
                             {% endif %}

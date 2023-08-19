@@ -2,6 +2,7 @@ version: '3.9'
 
 services:
   web:
+    image: "joblinker"
     build: .
     command: python /code/manage.py runserver 0.0.0.0:8000
     volumes:
@@ -41,8 +42,7 @@ services:
     image: "redis:alpine"
   db:
     image: postgres:14
-    container_name: postgres #you can change this
-#    restart: always
+    container_name: postgres
     environment:
       - POSTGRES_USER=erfan
       - POSTGRES_PASSWORD=erfan # Corrected the variable name from PASS to PASSWORD

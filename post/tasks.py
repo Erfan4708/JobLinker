@@ -1,9 +1,6 @@
 from __future__ import absolute_import, unicode_literals
 from selenium import webdriver
-from selenium.webdriver import DesiredCapabilities
-from selenium.webdriver.firefox.options import Options as FirefoxOptions
 from time import sleep
-from config.celery import app
 import os
 from selenium.webdriver.common.by import By
 from celery import shared_task
@@ -19,12 +16,7 @@ from selenium.common.exceptions import ElementNotInteractableException
 from django.db.models import Max
 from django.db.models import Q
 
-
-# SELENIUM_GRID_HOST = os.environ.get('SELENIUM_GRID_HOST', 'localhost')
-
-print("Test Execution Started")
 options = webdriver.FirefoxOptions()
-
 
 @shared_task
 def jobinja_scrap():
@@ -84,9 +76,16 @@ def jobinja_scrap():
                 link_exists = Post.objects.filter(Q(link=link) & ~Q(date_modified=-1)).exists()
                 if link_exists:
                     print(f"Link '{link}' already exists in the database. Skipping scraping.")
-                    print("data base is update ###############################")
-                    check = True
-                    break
+                    driver.close()
+                    sleep(0.5)
+                    driver.switch_to.window(all_handle[0])
+                    title = wait.until(
+                        EC.presence_of_element_located((By.XPATH, "//a[@class='c-jobListView__titleLink']")))
+                    continue
+                    # print(f"Link '{link}' already exists in the database. Skipping scraping.")
+                    # print("data base is update ###############################")
+                    # check = True
+                    # break
 
                 if isinstance(date_modified, int):
                     dictionary = {
@@ -201,9 +200,26 @@ def jobvision_scrap():
                 link_exists = Post.objects.filter(Q(link=link) & ~Q(date_modified=-1)).exists()
                 if link_exists:
                     print(f"Link '{link}' already exists in the database. Skipping scraping.")
-                    print("data base is update ###############################")
-                    check = True
-                    break
+                    try:
+                        next = driver.find_element(By.XPATH, "/html/body/app-root/div/job-detail/section/div[3]/a[2]")
+                        next.click()
+                    except NoSuchElementException:
+                        driver.get(f"https://jobvision.ir/jobs/category/developer?page={page}&sort=0")
+                        sleep(4)
+                        driver.find_element(By.XPATH, f"//*[text()='{title_element}']").click()
+                        try:
+                            next = driver.find_element(By.XPATH,
+                                                       "/html/body/app-root/div/job-detail/section/div[3]/a[2]")
+                            next.click()
+                        except NoSuchElementException:
+                            page += 1
+                            driver.get(f"https://jobvision.ir/jobs/category/developer?page={page}&sort=0")
+                            sleep(2)
+                    continue
+                    # print(f"Link '{link}' already exists in the database. Skipping scraping.")
+                    # print("data base is update ###############################")
+                    # check = True
+                    # break
                 dictionary = {
                     "title": title_element,
                     "company_name": company_name,
@@ -278,3 +294,12 @@ def save_to_postgres(data, website):
 
     print('save_to_postgres@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@')
     post.save()
+
+
+@shared_task
+def update_database():
+    posts_to_update = Post.objects.exclude(date_modified=-1)
+    for post in posts_to_update:
+        post.date_modified += 1
+        post.save()
+    print("date_modified += 1 . Done")

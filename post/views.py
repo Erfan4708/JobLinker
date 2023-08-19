@@ -7,8 +7,8 @@ from django.http import HttpResponse, HttpResponseRedirect
 from config.celery import app
 from time import sleep
 from celery import shared_task
-from .tasks import jobinja_scrap, jobvision_scrap
-from .models import Post
+from .tasks import jobinja_scrap, jobvision_scrap, update_database
+from .models import Post, City
 from django.views import generic, View
 from django.db.models import Q
 from django.shortcuts import get_object_or_404, redirect
@@ -31,7 +31,7 @@ class UrgentPostListView(generic.ListView):
         self.request.session['urgent_selected'] = True
         self.request.session.pop('non_urgent_selected', None)
 
-        return Post.objects.filter(date_modified=-1).order_by('date_modified')
+        return Post.objects.filter(date_modified=-1).order_by('date_modified', 'date_crawled')
 
 class NonUrgentPostListView(generic.ListView):
     model = Post
@@ -74,7 +74,6 @@ class PostDetailView(generic.DetailView):
 
         context['favorite_post'] = favorite_post  # Add FavoritePost instance to context
         return context
-
 
 
 def search(request):
@@ -122,4 +121,18 @@ class AddToFavoritesView(View):
 
         return redirect('post_detail', pk=post.pk)
 
+
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+
+
+@csrf_exempt
+def search_in_city(request):
+    if request.method == 'POST':
+        search_term = request.POST.get('search_term', '')
+        # Perform a query to fetch suggested cities based on the search_term
+        suggested_cities = City.objects.filter(name__icontains=search_term)[:10]  # Adjust your query as needed
+
+        cities = [city.name for city in suggested_cities]
+        return JsonResponse({'cities': cities})
 

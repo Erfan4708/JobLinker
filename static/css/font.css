@@ -1,0 +1,12 @@
+/* static/css/styles.css */
+
+@font-face {
+    font-family: MyCustomFont;
+    src: url('../fonts/FontsFree-Net-ir_sans.ttf') format('truetype');
+}
+
+body {
+    font-family: MyCustomFont, sans-serif;
+}
+
+/* ... تنظیمات دیگر استایل ... */

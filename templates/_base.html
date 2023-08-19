@@ -23,31 +23,50 @@
     <link rel="stylesheet" href="{% static 'css/slick.css' %}">
     <link rel="stylesheet" href="{% static 'css/nice-select.css' %}">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/font.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style_me.css' %}">
+
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0/css/select2.min.css" rel="stylesheet"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0/js/select2.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet">
+
+
+
+
+    <style>
+        * {
+            font-family: MyCustomFont;
+        }
+    </style>
 </head>
 
 <body>
-    <!-- Preloader Start -->
-    <div id="preloader-active">
-        <div class="preloader d-flex align-items-center justify-content-center">
-            <div class="preloader-inner position-relative">
-                <div class="preloader-circle"></div>
-                <div class="preloader-img pere-text">
-                    <img src="{% static 'img/logo/logo.png' %}" alt="">
-                </div>
+<!-- Preloader Start -->
+<div id="preloader-active">
+    <div class="preloader d-flex align-items-center justify-content-center">
+        <div class="preloader-inner position-relative">
+            <div class="preloader-circle"></div>
+            <div class="preloader-img pere-text">
+                <img src="{% static 'img/logo/logo.png' %}" alt="">
             </div>
         </div>
     </div>
+</div>
 <!-- Preloader Start -->
 <header dir="rtl">
     <!-- Header Start -->
-    <div class="header-area header-transparrent" style="font-family: IRANSans">
+    <div class="header-area header-transparrent">
         <div class="headder-top header-sticky">
             <div class="container">
                 <div class="row align-items-center">
                     <div class="col-lg-3 col-md-2">
                         <!-- Logo -->
                         <div class="logo">
-                            <a href="{% url 'urgent_post_list' %}"><img src="{% static 'img/logo/logo.png' %}" alt=""></a>
+                            <a href="{% url 'urgent_post_list' %}"><img src="{% static 'img/logo/logo.png' %}"
+                                                                        alt=""></a>
                         </div>
                     </div>
                     <div class="col-lg-9 col-md-9">
@@ -56,38 +75,31 @@
                             <div class="main-menu">
                                 <nav class="d-none d-lg-block">
                                     <ul id="navigation">
-                                        <li><a style="font-family: IRANSans" href="{% url 'urgent_post_list' %}">خانه</a></li>
-                                        <li><a style="font-family: IRANSans" href="{% url 'urgent_post_list' %}">جستجوی
+                                        <li><a style="font-family: MyCustomFont" href="{% url 'urgent_post_list' %}">خانه</a>
+                                        </li>
+                                        <li><a style="font-family: MyCustomFont" href="{% url 'urgent_post_list' %}">جستجوی
                                             مشاغل </a></li>
-                                        {#                                            <li><a href="about.html">About</a></li>#}
-                                        {#                                            <li><a href="#">Page</a>#}
-                                        {#                                                <ul class="submenu">#}
-                                        {#                                                    <li><a href="blog.html">Blog</a></li>#}
-                                        {#                                                    <li><a href="single-blog.html">Blog Details</a></li>#}
-                                        {#                                                    <li><a href="elements.html">Elements</a></li>#}
-                                        {#                                                    <li><a href="job_details.html">job Details</a></li>#}
-                                        {#                                                </ul>#}
-                                        {#                                            </li>#}
-                                        <li><a style="font-family: IRANSans" href="{% url 'favorite_list' %}">نشان شده
+                                        <li><a style="font-family: MyCustomFont" href="{% url 'favorite_list' %}">نشان
+                                            شده
                                             ها</a></li>
+                                        <li><a href="#" style="font-family: MyCustomFont">حساب کاربری</a>
+                                            <ul class="submenu">
+                                                {% if user.is_authenticated %}
+                                                    <li><a class="text-center" style="font-family: MyCustomFont"
+                                                           href="#">{{ user.username }}</a></li>
+                                                    <li><a class="text-center" style="font-family: MyCustomFont"
+                                                           href="{% url 'logout' %}">خروج</a></li>
+                                                {% else %}
+                                                    <li><a class="text-center" style="font-family: MyCustomFont"
+                                                           href="{% url 'signup' %}">ثبت نام</a></li>
+                                                    <li><a class="text-center" style="font-family: MyCustomFont"
+                                                           href="{% url 'login' %}">ورود</a></li>
+                                                {% endif %}
+                                            </ul>
+                                        </li>
                                     </ul>
                                 </nav>
                             </div>
-                            <!-- Header-btn -->
-                            {% if user.is_authenticated %}
-
-                                <a style="border-radius: 5px; background-color: #242B5E; color: white"
-                                   href="#" class="btn">{{ user.username }}</a>
-
-                                <a style="border-radius: 5px" href="{% url 'logout' %}" class="btn head-btn2">خروج</a>
-                            {% else %}
-                                <div class="header-btn d-none f-right d-lg-block">
-                                    <a style="border-radius: 5px" href="{% url 'signup' %}" class="btn head-btn1">ثبت
-                                        نام</a>
-                                    <a style="border-radius: 5px" href="{% url 'login' %}"
-                                       class="btn head-btn2">ورود</a>
-                                </div>
-                            {% endif %}
                         </div>
                     </div>
                     <!-- Mobile Menu -->
@@ -104,11 +116,11 @@
     {% block header %}
 
     {% endblock header %}
-{% block new_ads_urgent %}
-{% endblock new_ads_urgent %}
+    {% block new_ads_urgent %}
+    {% endblock new_ads_urgent %}
 
-{% block new_ads_latest %}
-{% endblock new_ads_latest %}
+    {% block new_ads_latest %}
+    {% endblock new_ads_latest %}
 
     <!-- Featured_job_start -->
     <section class="featured-job-area feature-padding">
@@ -132,9 +144,6 @@
     <div class="footer-area footer-bg footer-padding">
         <div class="container">
             <div class="row d-flex justify-content-between">
-
-
-
                 <div class="col-xl-3 col-lg-3 col-md-4 col-sm-5">
                     <div class="single-footer-caption mb-50">
 
@@ -142,7 +151,7 @@
                 </div>
             </div>
             <!--  -->
-           </div>
+        </div>
     </div>
     <!-- footer-bottom area -->
     <div class="footer-bottom-area footer-bg">
@@ -155,7 +164,7 @@
                                 Copyright &copy;<script>document.write(new Date().getFullYear());</script>
                                 All rights reserved | This template is made with <i class="fa fa-heart"
                                                                                     aria-hidden="true"></i> by <a
-                                        href="#" >Colorlib</a>
+                                        href="#">Colorlib</a>
                                 <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                             </p>
                         </div>
@@ -218,6 +227,30 @@
         document.forms['form_filter'].submit();
     }
 </script>
+{#<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>#}
+{#<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-rc.0/js/select2.min.js"></script>#}
+{#<script>#}
+{#    $(document).ready(function() {#}
+{#        $('.select2').select2({#}
+{#            placeholder: 'انتخاب شهر...',#}
+{#            dir: "rtl",#}
+{#            language: "fa"#}
+{#        });#}
+{#    });#}
+{#</script>#}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $('#select2-location').select2({
+            dir: 'rtl',  // جهت متن
+            width: '100%',  // عرض انتخاب‌گر
+        });
+    });
+</script>
+
+
+
+
 
 </body>
 </html>
