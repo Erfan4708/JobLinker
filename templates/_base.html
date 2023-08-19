@@ -34,8 +34,6 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet">
 
 
-
-
     <style>
         * {
             font-family: MyCustomFont;
@@ -220,37 +218,31 @@
 <!-- Jquery Plugins, main Jquery -->
 <script src="{% static 'js/plugins.js' %}"></script>
 <script src="{% static 'js/main.js' %}"></script>
-
-
 <script>
     function submitForm() {
         document.forms['form_filter'].submit();
     }
 </script>
-{#<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>#}
-{#<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-rc.0/js/select2.min.js"></script>#}
-{#<script>#}
-{#    $(document).ready(function() {#}
-{#        $('.select2').select2({#}
-{#            placeholder: 'انتخاب شهر...',#}
-{#            dir: "rtl",#}
-{#            language: "fa"#}
-{#        });#}
-{#    });#}
-{#</script>#}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
         $('#select2-location').select2({
-            dir: 'rtl',  // جهت متن
-            width: '100%',  // عرض انتخاب‌گر
+            dir: 'rtl',
+            width: '100%',
         });
     });
 </script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
 
-
-
-
-
+        $(".option").not(".selected-option").hide();
+        $("select").change(function () {
+            var selectedLocation = $(this).val();
+            $(".option").hide();
+            $(".option[value='" + selectedLocation + "']").show();
+        });
+    });
+</script>
 </body>
 </html>

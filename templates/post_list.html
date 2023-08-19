@@ -27,7 +27,6 @@
                     <div class="row" style="justify-content: center;">
                         <div class="col-xl-6 col-lg-9 col-md-10">
                             <div class="hero__caption text-center" style="justify-content: center;">
-                                {#                                    <h1>Find the most exciting startup jobs</h1>#}
                                 <h4 style="font-family: MyCustomFont;line-height: normal" class="text-center">همه ی آگهی
                                     های
                                     سایت های کاریابی را یکجا ببینید</h4>
@@ -46,8 +45,8 @@
                                            placeholder="عنوان شغلی / مهارت یا ..." name="search_keyword">
                                 </div>
                                 <div class="select-form text-center" style="font-family: MyCustomFont;">
-                                    <select name="location" id="select2-location" class="custom-select" >
-                                        <option value="" class="selected-option text-center" >همه شهر ها</option>
+                                    <select name="location" id="select2-location" class="custom-select">
+                                        <option value="" class="selected-option text-center">همه شهر ها</option>
                                         <option type="hidden"
                                                 value="تهران"
                                                 class="option"
@@ -204,24 +203,7 @@
                                                 class="option"
                                                 {% if selected_location == "ایلام" %}selected{% endif %}>ایلام
                                         </option>
-
-
                                     </select>
-                                <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            // مخفی کردن تمام گزینه‌ها به جز گزینه پیشفرض
-            $(".option").not(".selected-option").hide();
-
-            // تغییر انتخاب گزینه و نمایش مربوط به آن
-            $("select").change(function() {
-                var selectedLocation = $(this).val();
-                $(".option").hide(); // مخفی کردن تمام گزینه‌ها
-                $(".option[value='" + selectedLocation + "']").show(); // نمایش گزینه انتخاب شده
-            });
-        });
-    </script>
-
                                 </div>
                                 <div class="search-form">
                                     <a href="#" style="font-family: MyCustomFont; border-radius: 15px"
@@ -239,10 +221,6 @@
     </div>
     <!-- slider Area End-->
 {% endblock header %}
-
-
-
-
 {% block content %}
     <ul class="nav nav-tabs" id="myTab" role="tablist"
         style=" display: flex;justify-content: center;font-family: MyCustomFont">

@@ -27,7 +27,6 @@ class UrgentPostListView(generic.ListView):
     context_object_name = 'urgent_ads'
 
     def get_queryset(self):
-        # انتخاب دکمه آگهی‌های فوری ذخیره می‌شود
         self.request.session['urgent_selected'] = True
         self.request.session.pop('non_urgent_selected', None)
 
@@ -99,8 +98,6 @@ def search(request):
         selected_location = location
     return render(request, 'search_result.html', {'search_result': search_result, 'selected_location': selected_location})
 
-# view.py
-
 
 class AddToFavoritesView(View):
     def post(self, request, pk):
@@ -120,19 +117,3 @@ class AddToFavoritesView(View):
                 FavoritePost.objects.filter(user_id=user.id, post=post).delete()
 
         return redirect('post_detail', pk=post.pk)
-
-
-from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
-
-
-@csrf_exempt
-def search_in_city(request):
-    if request.method == 'POST':
-        search_term = request.POST.get('search_term', '')
-        # Perform a query to fetch suggested cities based on the search_term
-        suggested_cities = City.objects.filter(name__icontains=search_term)[:10]  # Adjust your query as needed
-
-        cities = [city.name for city in suggested_cities]
-        return JsonResponse({'cities': cities})
-

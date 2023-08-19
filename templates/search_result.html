@@ -15,7 +15,7 @@
     </div>
 {% endblock new_ads %}
 {% block header %}
-      <!-- slider Area Start-->
+    <!-- slider Area Start-->
     <div class="slider-area " dir="rtl">
         <!-- Mobile Menu -->
         <div class="slider-active">
@@ -25,7 +25,6 @@
                     <div class="row" style="justify-content: center;">
                         <div class="col-xl-6 col-lg-9 col-md-10">
                             <div class="hero__caption text-center" style="justify-content: center;">
-                                {#                                    <h1>Find the most exciting startup jobs</h1>#}
                                 <h4 style="font-family: MyCustomFont;line-height: normal" class="text-center">همه ی آگهی
                                     های
                                     سایت های کاریابی را یکجا ببینید</h4>
@@ -44,8 +43,8 @@
                                            placeholder="عنوان شغلی / مهارت یا ..." name="search_keyword">
                                 </div>
                                 <div class="select-form text-center" style="font-family: MyCustomFont;">
-                                    <select name="location" id="select2-location" class="custom-select" >
-                                        <option value="" class="selected-option text-center" >همه شهر ها</option>
+                                    <select name="location" id="select2-location" class="custom-select">
+                                        <option value="" class="selected-option text-center">همه شهر ها</option>
                                         <option type="hidden"
                                                 value="تهران"
                                                 class="option"
@@ -202,23 +201,7 @@
                                                 class="option"
                                                 {% if selected_location == "ایلام" %}selected{% endif %}>ایلام
                                         </option>
-
-
                                     </select>
-                                <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            // مخفی کردن تمام گزینه‌ها به جز گزینه پیشفرض
-            $(".option").not(".selected-option").hide();
-
-            // تغییر انتخاب گزینه و نمایش مربوط به آن
-            $("select").change(function() {
-                var selectedLocation = $(this).val();
-                $(".option").hide(); // مخفی کردن تمام گزینه‌ها
-                $(".option[value='" + selectedLocation + "']").show(); // نمایش گزینه انتخاب شده
-            });
-        });
-    </script>
 
                                 </div>
                                 <div class="search-form">
@@ -227,8 +210,6 @@
                                        onclick="submitForm(); return false;">جستجو</a>
                                 </div>
                             </form>
-
-
                         </div>
                     </div>
                 </div>
@@ -325,7 +306,8 @@
                             <li class="page-item"><a class="page-link" href="?page={{ num }}"
                                                      style="font-family: MyCustomFont;">{{ num }}</a></li>
                         {% elif num == page_obj.paginator.page_range.1 or num == page_obj.paginator.page_range.1 %}
-                            <li class="page-item disabled"><a class="page-link" href="#" style="font-family: MyCustomFont;">...</a>
+                            <li class="page-item disabled"><a class="page-link" href="#"
+                                                              style="font-family: MyCustomFont;">...</a>
                             </li>
                         {% endif %}
                     {% endif %}
@@ -351,7 +333,4 @@
             </ul>
         </nav>
     </div>
-
-
-
 {% endblock content %}

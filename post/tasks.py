@@ -56,10 +56,8 @@ def jobinja_scrap():
 
                 href.click()
                 all_handle = driver.window_handles
-                window_handles.append(all_handle[-1])  # افزودن هندل پنجره جدید به لیست
+                window_handles.append(all_handle[-1])
                 driver.switch_to.window(all_handle[-1])
-                # all_handle = driver.window_handles
-                # driver.switch_to.window(all_handle[-1])
 
                 title = wait.until(
                     EC.presence_of_element_located((By.XPATH, "//div[@class='c-jobView__titleText']//*"))).text
@@ -82,10 +80,6 @@ def jobinja_scrap():
                     title = wait.until(
                         EC.presence_of_element_located((By.XPATH, "//a[@class='c-jobListView__titleLink']")))
                     continue
-                    # print(f"Link '{link}' already exists in the database. Skipping scraping.")
-                    # print("data base is update ###############################")
-                    # check = True
-                    # break
 
                 if isinstance(date_modified, int):
                     dictionary = {
@@ -216,10 +210,6 @@ def jobvision_scrap():
                             driver.get(f"https://jobvision.ir/jobs/category/developer?page={page}&sort=0")
                             sleep(2)
                     continue
-                    # print(f"Link '{link}' already exists in the database. Skipping scraping.")
-                    # print("data base is update ###############################")
-                    # check = True
-                    # break
                 dictionary = {
                     "title": title_element,
                     "company_name": company_name,
@@ -273,10 +263,7 @@ def jobvision_scrap():
 
 
 def save_to_postgres(data, website):
-    # پیدا کردن بیشترین آی‌دی موجود در دیتابیس
     max_id = Post.objects.aggregate(Max('id'))['id__max']
-
-    # ایجاد آی‌دی جدید با افزودن یکی به بیشترین آی‌دی
     new_id = max_id + 1 if max_id is not None else 1
 
     post = Post(
