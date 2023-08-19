@@ -4,6 +4,7 @@
   <img src="https://github.com/Erfan4708/JobLinker/blob/main/static/joblinker.png" alt="JobLinker Header Image">
 </div>
 
+
 JobLinker is a web application that aggregates job listings from various job boards and recruitment websites, providing users with a centralized platform to explore and search for job opportunities based on their skills and preferences.
 
 ## Table of Contents
@@ -14,6 +15,7 @@ JobLinker is a web application that aggregates job listings from various job boa
 - [Installation](#installation)
 - [Usage](#usage)
 - [Contributing](#contributing)
+- [License](#license)
 
 ## Introduction
 
@@ -35,7 +37,7 @@ JobLinker employs Selenium-powered web crawlers to scrape job listings from a cu
 
 **Scheduled Task Management:** JobLinker uses Celery Beat for task scheduling, which automates the periodic execution of web crawlers to update the job database with fresh listings.
 
-**Custom Driver Configuration:** You can configure your own Webdriver settings in the `task.py` file to suit your requirements.
+**Custom Driver Configuration:** You can configure your own driver settings in the `task.py` file to suit your requirements.
 
 ## Installation
 
@@ -46,9 +48,11 @@ To run JobLinker locally, follow these steps:
 3. Install the required dependencies: `pip install -r requirements.txt`
 4. Set up your database configuration in `settings.py`
 5. Configure your Webdriver settings in `task.py`
-6. Run migrations: `python manage.py migrate`
-7. Start the Celery worker: `celery -A config worker -l info`
-8. Start the development server: `python manage.py runserver`
+6. Set up a Redis server and run it.
+7. Update your Celery settings in `settings.py` to point to your Redis server.
+8. Run migrations: `python manage.py migrate`
+9. Start the Celery worker: `celery -A config worker -l info`
+10. Start the development server: `python manage.py runserver`
 
 ## Usage
 
@@ -65,7 +69,6 @@ JobLinker has been deployed and is accessible at the following URL:
 ## Contributing
 
 Contributions to JobLinker are welcome! If you find any issues or have suggestions for improvements, please open an issue or submit a pull request. For major changes, please discuss them with the project maintainers first.
-
 
 ## Note
 
