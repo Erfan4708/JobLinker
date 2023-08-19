@@ -1,38 +1,17 @@
-
-    .custom-select {
-        height: 100%;
-        position: relative;
-        cursor: pointer;
-    }
-
-    .selected-option {
-        display: block;
-        padding: 10px;
-        border: 1px solid #ffffff;
-    }
-
-   .options {
+.city-list-container {
     position: absolute;
-    display: none;
     width: 100%;
-    max-height: 300px; /* تعیین حداکثر ارتفاع نمایش */
-    overflow-y: auto; /* ایجاد اسکرول در صورت نیاز */
+    max-height: 200px;
+    overflow-y: auto;
+    z-index: 1;
+}
+
+.city-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
     background-color: #fff;
     border: 1px solid #ccc;
-    z-index: 2;
-}
-
-    .option {
-        padding: 10px;
-        cursor: pointer;
-    }
-
-    
-    #my-select option {
-    display: none;
-}
-
-/* نمایش گزینه‌هایی که با select2 ایجاد شده‌اند */
-.select2-container .select2-selection--single .select2-selection__rendered {
-    display: block !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
 }

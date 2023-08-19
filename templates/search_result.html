@@ -33,8 +33,8 @@
                         </div>
                     </div>
                     <!-- Search Box -->
-                    <div class="row" style="justify-content: left;">
-                        <div class="col-xl-8" style="background-color: white; border-radius: 15px">
+                   <div class="row" style="justify-content: left;">
+                        <div class="col-xl-8" style="background-color: white; border-radius: 15px;">
                             <!-- form -->
                             <form action="{% url 'search' %}" class="search-box" name="form_filter" method="POST">
                                 {% csrf_token %}
@@ -42,177 +42,36 @@
                                     <input style="font-family: MyCustomFont; border-radius: 15px" type="text"
                                            placeholder="عنوان شغلی / مهارت یا ..." name="search_keyword">
                                 </div>
-                                <div class="select-form text-center" style="font-family: MyCustomFont;">
-                                    <select name="location" id="select2-location" class="custom-select">
-                                        <option value="" class="selected-option text-center">همه شهر ها</option>
-                                        <option type="hidden"
-                                                value="تهران"
-                                                class="option"
-                                                {% if selected_location == "تهران" %}selected{% endif %}>تهران
-                                        </option>
-                                        <option
-                                                value="مشهد"
-                                                class="option"
-                                                {% if selected_location == "مشهد" %}selected{% endif %}>مشهد
-                                        </option>
-                                        <option
-                                                value="اصفهان"
-                                                class="option"
-                                                {% if selected_location == "اصفهان" %}selected{% endif %}>اصفهان
-                                        </option>
-                                        <option
-                                                value="کرج"
-                                                class="option"
-                                                {% if selected_location == "کرج" %}selected{% endif %}>کرج
-                                        </option>
-                                        <option
-                                                value="شیراز"
-                                                class="option"
-                                                {% if selected_location == "شیراز" %}selected{% endif %}>شیراز
-                                        </option>
-                                        <option
-                                                value="قم"
-                                                class="option"
-                                                {% if selected_location == "قم" %}selected{% endif %}>قم
-                                        </option>
-                                        <option
-                                                value="ساری"
-                                                class="option"
-                                                {% if selected_location == "ساری" %}selected{% endif %}>ساری
-                                        </option>
-                                        <option
-                                                value="تبریز"
-                                                class="option"
-                                                {% if selected_location == "تبریز" %}selected{% endif %}>تبریز
-                                        </option>
-                                        <option
-                                                value="رشت"
-                                                class="option"
-                                                {% if selected_location == "رشت" %}selected{% endif %}>رشت
-                                        </option>
-                                        <option
-                                                value="اراک"
-                                                class="option"
-                                                {% if selected_location == "اراک" %}selected{% endif %}>اراک
-                                        </option>
-                                        <option
-                                                value="اهواز"
-                                                class="option"
-                                                {% if selected_location == "اهواز" %}selected{% endif %}>اهواز
-                                        </option>
-                                        <option
-                                                value="یزد"
-                                                class="option"
-                                                {% if selected_location == "یزد" %}selected{% endif %}>یزد
-                                        </option>
-                                        <option
-                                                value="قزوین"
-                                                class="option"
-                                                {% if selected_location == "قزوین" %}selected{% endif %}>قزوین
-                                        </option>
-                                        <option
-                                                value="کرمان"
-                                                class="option"
-                                                {% if selected_location == "کرمان" %}selected{% endif %}>کرمان
-                                        </option>
-                                        <option
-                                                value="هرمزگان"
-                                                class="option"
-                                                {% if selected_location == "هرمزگان" %}selected{% endif %}>هرمزگان
-                                        </option>
-                                        <option
-                                                value="بوشهر"
-                                                class="option"
-                                                {% if selected_location == "بوشهر" %}selected{% endif %}>بوشهر
-                                        </option>
-                                        <option
-                                                value="گلستان"
-                                                class="option"
-                                                {% if selected_location == "گلستان" %}selected{% endif %}>گلستان
-                                        </option>
-                                        <option
-                                                value="همدان"
-                                                class="option"
-                                                {% if selected_location == "همدان" %}selected{% endif %}>همدان
-                                        </option>
-                                        <option
-                                                value="ارومیه"
-                                                class="option"
-                                                {% if selected_location == "ارومیه" %}selected{% endif %}>ارومیه
-                                        </option>
-                                        <option
-                                                value="زنجان"
-                                                class="option"
-                                                {% if selected_location == "زنجان" %}selected{% endif %}>زنجان
-                                        </option>
-                                        <option
-                                                value="زاهدان"
-                                                class="option"
-                                                {% if selected_location == "زاهدان" %}selected{% endif %}>زاهدان
-                                        </option>
-                                        <option
-                                                value="سمنان"
-                                                class="option"
-                                                {% if selected_location == "سمنان" %}selected{% endif %}>سمنان
-                                        </option>
-                                        <option
-                                                value="کرمانشاه"
-                                                class="option"
-                                                {% if selected_location == "کرمانشاه" %}selected{% endif %}>کرمانشاه
-                                        </option>
-                                        <option
-                                                value="اردبیل"
-                                                class="option"
-                                                {% if selected_location == "اردبیل" %}selected{% endif %}>اردبیل
-                                        </option>
-                                        <option
-                                                value="بجنورد"
-                                                class="option"
-                                                {% if selected_location == "بجنورد" %}selected{% endif %}>بجنورد
-                                        </option>
-                                        <option
-                                                value="سنندج"
-                                                class="option"
-                                                {% if selected_location == "سنندج" %}selected{% endif %}>سنندج
-                                        </option>
-                                        <option
-                                                value="کردستان"
-                                                class="option"
-                                                {% if selected_location == "کردستان" %}selected{% endif %}>کردستان
-                                        </option>
-                                        <option
-                                                value="خرم آباد"
-                                                class="option"
-                                                {% if selected_location == "خرم آباد" %}selected{% endif %}>خرم آباد
-                                        </option>
-                                        <option
-                                                value="کهکیلویه و بویراحمد"
-                                                class="option"
-                                                {% if selected_location == "کهکیلویه و بویراحمد" %}selected{% endif %}>
-                                            کهکیلویه و بویراحمد
-                                        </option>
-                                        <option
-                                                value="بیرجند"
-                                                class="option"
-                                                {% if selected_location == "بیرجند" %}selected{% endif %}>بیرجند
-                                        </option>
-                                        <option
-                                                value="ایلام"
-                                                class="option"
-                                                {% if selected_location == "ایلام" %}selected{% endif %}>ایلام
-                                        </option>
-                                    </select>
+                                <div class="select-form text-center"
+                                     style="font-family: MyCustomFont; align-items: center; display: flex; flex-direction: column;">
+                                    <input type="hidden" name="location" id="selected-location" value="">
+                                    <div class="city-list-container" style="position: absolute;
+                                            width: auto;
+                                            max-height: 200px;
+                                            overflow-y: auto;
+                                            z-index: 1;
+                                            top: 25%">
 
+                                        <input style="width: 100%; height: 100%; border: none; outline: none; text-align: center;"
+                                               type="text" id="city-search" placeholder="جستجوی شهر...">
+                                        <ul id="city-list" class="city-list">
+
+                                        </ul>
+                                    </div>
                                 </div>
+
                                 <div class="search-form">
-                                    <a href="#" style="font-family: MyCustomFont; border-radius: 15px"
-                                       class="button-like-link"
-                                       onclick="submitForm(); return false;">جستجو</a>
+                                    <input value="جستجو" type="submit"
+                                           style="font-family: MyCustomFont; border-radius: 10px; width: 100%; height: 100%; background-color: #fb246a; color: white;"
+                                           class="button-like-link"
+                                           onclick="submitForm(); return false;">
                                 </div>
                             </form>
+
+
                         </div>
                     </div>
-                </div>
+                 </div>
             </div>
         </div>
     </div>
@@ -252,6 +111,8 @@
                                     جابینجا
                                 {% elif result.website == "job_vision" %}
                                     جاب ویژن
+                                {% elif result.website == "e-estekhdam" %}
+                                    ای استخدام
                                 {% endif %}
                             </li>
                             <li>{{ result.company_name }}</li>
@@ -264,6 +125,9 @@
                                 <img src="{% static 'img/icon/Jobinja-Logo.png' %}" alt="">
                             {% elif result.website == "job_vision" %}
                                 <img src="{% static 'img/icon/jobvision.png' %}" alt="">
+                            {% elif result.website == "e-estekhdam" %}
+                                <img src="{% static 'img/icon/estekhdam.png' %}" alt="">
+
                             {% endif %}
                         </a>
                     </div>

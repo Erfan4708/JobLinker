@@ -17,10 +17,13 @@
                     <div class="single-job-items mb-50">
                         <div class="job-items">
                             <div class="company-img company-img-details">
-                                <a href="#"> {% if post.website == "jobinja" %}
+                                <a href="#">
+                                {% if post.website == "jobinja" %}
                                     <img src="{% static 'img/icon/Jobinja-Logo.png' %}" alt="">
                                 {% elif post.website == "job_vision" %}
                                     <img src="{% static 'img/icon/jobvision.png' %}" alt="">
+                                {% elif post.website == "e-estekhdam" %}
+                                    <img src="{% static 'img/icon/estekhdam.png' %}" alt="">
                                 {% endif %}</a>
                             </div>
                             <div class="job-tittle">
@@ -79,6 +82,8 @@
                                 جابینجا
                             {% elif post.website == "job_vision" %}
                                 جاب ویژن
+                            {% elif post.website == "e-estekhdam" %}
+                                ای استخدام
                             {% endif %}
 
                             </span></li>

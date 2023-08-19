@@ -7,7 +7,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from config.celery import app
 from time import sleep
 from celery import shared_task
-from .tasks import jobinja_scrap, jobvision_scrap, update_database
+from .tasks import jobinja_scrap, jobvision_scrap, e_estekhdam_scrap, update_database
 from .models import Post, City
 from django.views import generic, View
 from django.db.models import Q
@@ -78,24 +78,25 @@ class PostDetailView(generic.DetailView):
 def search(request):
     search_result = None
     selected_location = None
-    # jobinja_scrap.delay()
-    # jobvision_scrap.delay()
+    e_estekhdam_scrap.delay()
+
     if request.method == "POST":
         search_keyword = request.POST.get("search_keyword")
-        location = request.POST.get("location")
-        if location == "همه شهر ها":
-            location = ""
+        selected_location = request.POST.get("location")  # تغییر اینجا
+
+        if selected_location == "همه شهر ها":
+            selected_location = ""
 
         q_condition = Q(title__icontains=search_keyword) | \
                       Q(company_name__icontains=search_keyword) | \
                       Q(detail_position__icontains=search_keyword) | \
                       Q(description_position__icontains=search_keyword)
 
-        if location:
-            q_condition &= Q(location__icontains=location)
+        if selected_location:
+            q_condition &= Q(location__icontains=selected_location)
 
         search_result = Post.objects.filter(q_condition).order_by('date_modified')
-        selected_location = location
+
     return render(request, 'search_result.html', {'search_result': search_result, 'selected_location': selected_location})
 
 

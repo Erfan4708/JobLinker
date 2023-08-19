@@ -262,6 +262,100 @@ def jobvision_scrap():
     driver.quit()
 
 
+@shared_task
+def e_estekhdam_scrap():
+    driver = webdriver.Remote(
+        command_executor='http://selenium-hub:4444/wd/hub',
+        options=options,
+    )
+    driver.get(
+        "https://www.e-estekhdam.com/search/%D8%A7%D8%B3%D8%AA%D8%AE%D8%AF%D8%A7%D9%85-%D8%A8%D8%B1%D9%86%D8%A7%D9%85%D9%87-%D9%86%D9%88%DB%8C%D8%B3--%D9%85%D9%87%D9%86%D8%AF%D8%B3-%DA%A9%D8%A7%D9%85%D9%BE%DB%8C%D9%88%D8%AA%D8%B1--%D8%B7%D8%B1%D8%A7%D8%AD-%D9%88%D8%A8-%D8%B3%D8%A7%DB%8C%D8%AA--%D8%AA%DA%A9%D9%86%D8%B3%DB%8C%D9%86-%D8%B4%D8%A8%DA%A9%D9%87--%D9%85%D8%AA%D8%AE%D8%B5%D8%B5-%D8%B4%D8%A8%DA%A9%D9%87--%DA%A9%D8%A7%D8%B1%D8%B4%D9%86%D8%A7%D8%B3-%D8%B4%D8%A8%DA%A9%D9%87-%D9%87%D8%A7%DB%8C-%D8%A7%D8%AC%D8%AA%D9%85%D8%A7%D8%B9%DB%8C--Help-Desk--%D9%BE%D8%B4%D8%AA%DB%8C%D8%A8%D8%A7%D9%86-%D9%86%D8%B1%D9%85%E2%80%8C%D8%A7%D9%81%D8%B2%D8%A7%D8%B1--%DA%A9%D8%A7%D8%B1%D8%B4%D9%86%D8%A7%D8%B3-%D8%AF%DB%8C%D8%AC%DB%8C%D8%AA%D8%A7%D9%84-%D9%85%D8%A7%D8%B1%DA%A9%D8%AA%DB%8C%D9%86%DA%AF--%D9%88%D8%B1%D8%AF%D9%BE%D8%B1%D8%B3-%DA%A9%D8%A7%D8%B1--%D9%85%D8%AA%D8%AE%D8%B5%D8%B5-SEO--%D8%AA%DA%A9%D9%86%D8%B3%DB%8C%D9%86-%DA%A9%D8%A7%D9%85%D9%BE%DB%8C%D9%88%D8%AA%D8%B1--%D9%BE%D8%B4%D8%AA%DB%8C%D8%A8%D8%A7%D9%86-%D8%B3%D8%A7%DB%8C%D8%AA--%D9%86%D8%B5%D8%A7%D8%A8-%D8%AF%D9%88%D8%B1%D8%A8%DB%8C%D9%86-%D9%88-%D8%AF%D8%B2%D8%AF%DA%AF%DB%8C%D8%B1--%D9%85%D8%AA%D8%AE%D8%B5%D8%B5-%D9%BE%D8%A7%DB%8C%DA%AF%D8%A7%D9%87-%D8%AF%D8%A7%D8%AF%D9%87--%D8%B7%D8%B1%D8%A7%D8%AD-UI|UX--%DA%A9%D8%A7%D8%B1%D8%B4%D9%86%D8%A7%D8%B3-%D8%A7%D9%85%D9%86%DB%8C%D8%AA-%D8%B3%D8%A7%DB%8C%D8%A8%D8%B1%DB%8C--%DA%A9%D8%A7%D8%B1%D8%B4%D9%86%D8%A7%D8%B3-%D8%AA%D8%B3%D8%AA-%D9%86%D8%B1%D9%85%E2%80%8C%D8%A7%D9%81%D8%B2%D8%A7%D8%B1--%D9%85%D8%AF%DB%8C%D8%B1-%D9%BE%D8%B1%D9%88%DA%98%D9%87-%D9%86%D8%B1%D9%85-%D8%A7%D9%81%D8%B2%D8%A7%D8%B1--%D9%85%D8%AF%DB%8C%D8%B1-%D8%B3%D8%B1%D9%88%D8%B1--%D9%85%D8%AF%DB%8C%D8%B1-%D9%88%D8%A8-%D8%B3%D8%A7%DB%8C%D8%AA--%D9%86%D8%B5%D8%A7%D8%A8-%D8%A7%DB%8C%D9%86%D8%AA%D8%B1%D9%86%D8%AA--%DA%AF%D8%B1%D8%A7%D9%81%DB%8C%D8%B3%D8%AA-%D9%88%D8%A8--%D8%AF%DA%A9%D9%84-%DA%A9%D8%A7%D8%B1--%D9%86%D8%B5%D8%A7%D8%A8-%D8%B4%D8%A8%DA%A9%D9%87?page=1")
+    wait = WebDriverWait(driver, 10)
+
+    page = 1
+    check = True
+    while check == True:
+        hrefs = driver.find_elements(By.XPATH, "//div[@class='job-list-item item hrm ']")
+        for href in hrefs:
+            href.click()
+            all_handle = driver.window_handles
+            driver.switch_to.window(all_handle[-1])
+
+            try:
+                company_name = wait.until(
+                    EC.presence_of_element_located((By.XPATH, "//h2[contains(text(), 'استخدام')]"))).text
+            except NoSuchElementException:
+                company_name = "استخدام در یک شرکت معتبر"
+            except TimeoutException:
+                try:
+                    company_name = wait.until(
+                        EC.presence_of_element_located((By.XPATH, "//h2[contains(text(), 'استخدام')]"))).text
+                except NoSuchElementException:
+                    company_name = "استخدام در یک شرکت معتبر"
+                except TimeoutException:
+                    sleep(5)
+                    driver.close()
+                    driver.switch_to.window(all_handle[0])
+                    continue
+
+            try:
+                title = driver.find_element(By.XPATH, "//h1[@class='entry-title']").text
+            except:
+                title = "استخدام در یک شرکت معتبر"
+
+            try:
+                try:
+                    _ = driver.find_element(By.XPATH, "//div[text()='استان']")
+                    location = _.find_element(By.XPATH, './following-sibling::*[1]').text
+                except NoSuchElementException:
+                    _ = driver.find_element(By.XPATH, "//div[text()='Province']")
+                    location = _.find_element(By.XPATH, './following-sibling::*[1]').text
+
+            except NoSuchElementException:
+                try:
+                    location = driver.find_element(By.XPATH, '//strong[contains(text(), "استان")]').text
+                except NoSuchElementException:
+                    location = driver.find_element(By.XPATH, '//strong[contains(text(), "province")]').text
+            except:
+                try:
+                    location = driver.find_element(By.XPATH, '//*[contains(text(), "استان")]').text
+                except NoSuchElementException:
+                    location = driver.find_element(By.XPATH, '//*[contains(text(), "province")]').text
+                except:
+                    location = ""
+
+            try:
+                detail = driver.find_element(By.XPATH, "//div[@class='row ff-viewport']").text
+            except NoSuchElementException:
+                detail = driver.find_element(By.XPATH, "//div[@class='entry-content ']").text
+            description = ""
+            date_crawled = datetime.now()
+            link = driver.current_url
+            link_exists = Post.objects.filter(Q(link=link) & ~Q(date_modified=-1)).exists()
+            if link_exists:
+                driver.close()
+                driver.switch_to.window(all_handle[0])
+                continue
+
+            dictionary = {
+                "title": title,
+                "company_name": company_name,
+                "detail_position": detail,
+                "description_position": description,
+                "location": location,
+                "date_modified": 2,
+                "date_crawled": date_crawled,
+                "link": link,
+            }
+            save_to_postgres(dictionary, "e-estekhdam")
+            driver.close()
+            driver.switch_to.window(all_handle[0])
+
+        page += 1
+        driver.get(
+            f"https://www.e-estekhdam.com/search/%D8%A7%D8%B3%D8%AA%D8%AE%D8%AF%D8%A7%D9%85-%D8%A8%D8%B1%D9%86%D8%A7%D9%85%D9%87-%D9%86%D9%88%DB%8C%D8%B3--%D9%85%D9%87%D9%86%D8%AF%D8%B3-%DA%A9%D8%A7%D9%85%D9%BE%DB%8C%D9%88%D8%AA%D8%B1--%D8%B7%D8%B1%D8%A7%D8%AD-%D9%88%D8%A8-%D8%B3%D8%A7%DB%8C%D8%AA--%D8%AA%DA%A9%D9%86%D8%B3%DB%8C%D9%86-%D8%B4%D8%A8%DA%A9%D9%87--%D9%85%D8%AA%D8%AE%D8%B5%D8%B5-%D8%B4%D8%A8%DA%A9%D9%87--%DA%A9%D8%A7%D8%B1%D8%B4%D9%86%D8%A7%D8%B3-%D8%B4%D8%A8%DA%A9%D9%87-%D9%87%D8%A7%DB%8C-%D8%A7%D8%AC%D8%AA%D9%85%D8%A7%D8%B9%DB%8C--Help-Desk--%D9%BE%D8%B4%D8%AA%DB%8C%D8%A8%D8%A7%D9%86-%D9%86%D8%B1%D9%85%E2%80%8C%D8%A7%D9%81%D8%B2%D8%A7%D8%B1--%DA%A9%D8%A7%D8%B1%D8%B4%D9%86%D8%A7%D8%B3-%D8%AF%DB%8C%D8%AC%DB%8C%D8%AA%D8%A7%D9%84-%D9%85%D8%A7%D8%B1%DA%A9%D8%AA%DB%8C%D9%86%DA%AF--%D9%88%D8%B1%D8%AF%D9%BE%D8%B1%D8%B3-%DA%A9%D8%A7%D8%B1--%D9%85%D8%AA%D8%AE%D8%B5%D8%B5-SEO--%D8%AA%DA%A9%D9%86%D8%B3%DB%8C%D9%86-%DA%A9%D8%A7%D9%85%D9%BE%DB%8C%D9%88%D8%AA%D8%B1--%D9%BE%D8%B4%D8%AA%DB%8C%D8%A8%D8%A7%D9%86-%D8%B3%D8%A7%DB%8C%D8%AA--%D9%86%D8%B5%D8%A7%D8%A8-%D8%AF%D9%88%D8%B1%D8%A8%DB%8C%D9%86-%D9%88-%D8%AF%D8%B2%D8%AF%DA%AF%DB%8C%D8%B1--%D9%85%D8%AA%D8%AE%D8%B5%D8%B5-%D9%BE%D8%A7%DB%8C%DA%AF%D8%A7%D9%87-%D8%AF%D8%A7%D8%AF%D9%87--%D8%B7%D8%B1%D8%A7%D8%AD-UI|UX--%DA%A9%D8%A7%D8%B1%D8%B4%D9%86%D8%A7%D8%B3-%D8%A7%D9%85%D9%86%DB%8C%D8%AA-%D8%B3%D8%A7%DB%8C%D8%A8%D8%B1%DB%8C--%DA%A9%D8%A7%D8%B1%D8%B4%D9%86%D8%A7%D8%B3-%D8%AA%D8%B3%D8%AA-%D9%86%D8%B1%D9%85%E2%80%8C%D8%A7%D9%81%D8%B2%D8%A7%D8%B1--%D9%85%D8%AF%DB%8C%D8%B1-%D9%BE%D8%B1%D9%88%DA%98%D9%87-%D9%86%D8%B1%D9%85-%D8%A7%D9%81%D8%B2%D8%A7%D8%B1--%D9%85%D8%AF%DB%8C%D8%B1-%D8%B3%D8%B1%D9%88%D8%B1--%D9%85%D8%AF%DB%8C%D8%B1-%D9%88%D8%A8-%D8%B3%D8%A7%DB%8C%D8%AA--%D9%86%D8%B5%D8%A7%D8%A8-%D8%A7%DB%8C%D9%86%D8%AA%D8%B1%D9%86%D8%AA--%DA%AF%D8%B1%D8%A7%D9%81%DB%8C%D8%B3%D8%AA-%D9%88%D8%A8--%D8%AF%DA%A9%D9%84-%DA%A9%D8%A7%D8%B1--%D9%86%D8%B5%D8%A7%D8%A8-%D8%B4%D8%A8%DA%A9%D9%87?page={page}")
+
+    driver.quit()
 def save_to_postgres(data, website):
     max_id = Post.objects.aggregate(Max('id'))['id__max']
     new_id = max_id + 1 if max_id is not None else 1

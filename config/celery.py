@@ -9,6 +9,7 @@ app = Celery("config")
 app.config_from_object("django.conf:settings", namespace="CELERY")
 app.autodiscover_tasks()
 
+
 @app.task(bind=True)
 def debug_task(self):
     print(f'Request: {self.request!r}')
@@ -21,6 +22,10 @@ app.conf.beat_schedule = {
     },
     "jobvision_scrap_task": {
         "task": "post.tasks.jobvision_scrap",
+        "schedule": timedelta(minutes=30),
+    },
+    "e_estekhdam_scrap_task": {
+        "task": "post.tasks.e_estekhdam_scrap",
         "schedule": timedelta(minutes=30),
     },
     "update_database_task": {

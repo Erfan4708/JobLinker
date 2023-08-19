@@ -218,31 +218,48 @@
 <!-- Jquery Plugins, main Jquery -->
 <script src="{% static 'js/plugins.js' %}"></script>
 <script src="{% static 'js/main.js' %}"></script>
+{#<script>#}
+{#    function submitForm() {#}
+{#        document.forms['form_filter'].submit();#}
+{#    }#}
+{#</script>#}
 <script>
-    function submitForm() {
-        document.forms['form_filter'].submit();
-    }
-</script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
-<script>
-    $(document).ready(function () {
-        $('#select2-location').select2({
-            dir: 'rtl',
-            width: '100%',
-        });
-    });
-</script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-    $(document).ready(function () {
 
-        $(".option").not(".selected-option").hide();
-        $("select").change(function () {
-            var selectedLocation = $(this).val();
-            $(".option").hide();
-            $(".option[value='" + selectedLocation + "']").show();
-        });
+    const cities = [
+        "تهران", "مشهد", "اصفهان", "کرج", "شیراز", "قم", "ساری", "تبریز", "تبریز",
+        "اراک", "اهواز", "یزد", "قزوین", "کرمان", "هرمزگان", "بوشهر", "گلستان", "همدان",
+        "ارومیه", "زنجان", "زاهدان", "سمنان", "کرمانشاه", "اردبیل", "بجنورد", "سنندج",
+        "کردستان", "خرم آباد", "کهکیلویه و بویراحمد", "بیرجند", "ایلام",
+    ];
+
+    const citySearchInput = document.getElementById("city-search");
+    const cityList = document.getElementById("city-list");
+    const selectedLocationInput = document.getElementById("selected-location");
+
+    citySearchInput.addEventListener("input", function () {
+        const searchText = this.value.trim();
+
+
+        cityList.innerHTML = "";
+
+        if (searchText.length > 0) {
+            const filteredCities = cities.filter(city => city.includes(searchText));
+            filteredCities.forEach(city => {
+                const li = document.createElement("li");
+                li.textContent = city;
+                li.classList.add("option");
+
+                li.addEventListener("click", function () {
+                    citySearchInput.value = city;
+                    selectedLocationInput.value = city;
+                    cityList.innerHTML = "";
+                });
+
+                cityList.appendChild(li);
+            });
+        }
     });
+
 </script>
 </body>
 </html>
