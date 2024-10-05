@@ -1,10 +1,5 @@
 # JobLinker
 
-<div>
-  <img src="https://github.com/Erfan4708/JobLinker/blob/main/static/joblinker.png" alt="JobLinker Header Image">
-</div>
-
-
 JobLinker is a web application that aggregates job listings from various job boards and recruitment websites, providing users with a centralized platform to explore and search for job opportunities based on their skills and preferences.
 
 ## Table of Contents
