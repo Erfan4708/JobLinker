@@ -5,3 +5,7 @@ supervisor.conf
 geckodriver.log
 venv/
 .idea/
+__pycache__/
+*.py[cod]
+db.sqlite3
+.env

@@ -1,0 +1,47 @@
+{% load static %}
+<div class="single-job-items mb-30" style="margin-bottom: 30px;font-family: MyCustomFont">
+    <div class="items-link f-left">
+        <a href="{% url 'post_detail' post.id %}">مشاهده آگهی</a>
+        <span style="font-size: small; text-align: center" dir="rtl">
+            {% if post.date_modified == 0 %}
+                امروز منتشر شده
+            {% elif post.date_modified == -1 %}
+                <p style="font-family: MyCustomFont;background-color: #C93D31;border-radius: 5px;color: white;">فوری</p>
+            {% else %}
+                {{ post.date_modified }}  روز پیش منتشر شده
+            {% endif %}
+        </span>
+    </div>
+    <div class="job-items" style="display: flex; align-items: center;">
+        <div class="job-tittle" style="flex: 1;">
+            <a href="{% url 'post_detail' post.id %}">
+                <h4 dir="rtl"
+                    style="font-size: large; font-family: MyCustomFont; margin-bottom: 10px;text-align: right">{{ post.title }}</h4>
+            </a>
+            <ul style="text-align: right; margin-right: 0;">
+                <li>
+                    {% if post.website == "jobinja" %}
+                        جابینجا
+                    {% elif post.website == "job_vision" %}
+                        جاب ویژن
+                    {% elif post.website == "e-estekhdam" %}
+                        ای استخدام
+                    {% endif %}
+                </li>
+                <li>{{ post.company_name }}</li>
+                <li>{{ post.location }} <i class="fas fa-map-marker-alt"></i></li>
+            </ul>
+        </div>
+        <div class="company-img" style="margin-left: 20px;">
+            <a href="{% url 'post_detail' post.id %}">
+                {% if post.website == "jobinja" %}
+                    <img src="{% static 'img/icon/Jobinja-Logo.png' %}" alt="">
+                {% elif post.website == "job_vision" %}
+                    <img src="{% static 'img/icon/jobvision.png' %}" alt="">
+                {% elif post.website == "e-estekhdam" %}
+                    <img src="{% static 'img/icon/estekhdam.png' %}" alt="">
+                {% endif %}
+            </a>
+        </div>
+    </div>
+</div>

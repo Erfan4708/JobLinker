@@ -1,8 +1,8 @@
 from __future__ import absolute_import, unicode_literals
 import os
+from datetime import timedelta
 from celery import Celery
 from celery.schedules import crontab
-from celery.schedules import timedelta
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings")
 app = Celery("config")

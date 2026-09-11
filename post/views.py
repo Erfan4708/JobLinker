@@ -1,23 +1,9 @@
-from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.models import User
-from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseRedirect
-# Create your views here.
-from config.celery import app
-from time import sleep
-from celery import shared_task
-from .tasks import jobinja_scrap, jobvision_scrap, e_estekhdam_scrap, update_database
-from .models import Post, City
-from django.views import generic, View
 from django.db.models import Q
-from django.shortcuts import get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404, redirect
+from django.views import generic, View
+
 from .models import Post, FavoritePost
-from django.contrib.auth.decorators import login_required
-from django.utils.decorators import method_decorator
-from django.urls import reverse
-from django.db.models import Count
-from django.shortcuts import get_object_or_404
 
 
 class UrgentPostListView(generic.ListView):
@@ -64,25 +50,24 @@ class PostDetailView(generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        post = self.get_object()  # Get the Post instance
+        post = self.object
         user = self.request.user
 
         favorite_post = None
         if user.is_authenticated:
             favorite_post = FavoritePost.objects.filter(user=user, post=post).first()
 
-        context['favorite_post'] = favorite_post  # Add FavoritePost instance to context
+        context['favorite_post'] = favorite_post
         return context
 
 
 def search(request):
     search_result = None
     selected_location = None
-    e_estekhdam_scrap.delay()
 
     if request.method == "POST":
-        search_keyword = request.POST.get("search_keyword")
-        selected_location = request.POST.get("location")  # تغییر اینجا
+        search_keyword = request.POST.get("search_keyword", "")
+        selected_location = request.POST.get("location")
 
         if selected_location == "همه شهر ها":
             selected_location = ""
@@ -100,21 +85,19 @@ def search(request):
     return render(request, 'search_result.html', {'search_result': search_result, 'selected_location': selected_location})
 
 
-class AddToFavoritesView(View):
+class AddToFavoritesView(LoginRequiredMixin, View):
     def post(self, request, pk):
         post = get_object_or_404(Post, pk=pk)
         user = request.user
+        check_favorite = request.POST.get("check_favorite")
 
-        if request.method == "POST":
-            check_favorite = request.POST.get("check_favorite")
-
-            if check_favorite == "True":
-                # Add post to favorites
-                favorite_post, created = FavoritePost.objects.get_or_create(user=user, post=post)
-                favorite_post.is_check = True
-                favorite_post.save()
-            else:
-                # Remove post from favorites
-                FavoritePost.objects.filter(user_id=user.id, post=post).delete()
+        if check_favorite == "True":
+            # Add post to favorites
+            favorite_post, created = FavoritePost.objects.get_or_create(user=user, post=post)
+            favorite_post.is_check = True
+            favorite_post.save()
+        else:
+            # Remove post from favorites
+            FavoritePost.objects.filter(user_id=user.id, post=post).delete()
 
         return redirect('post_detail', pk=post.pk)

@@ -26,14 +26,6 @@
     <link rel="stylesheet" href="{% static 'css/font.css' %}">
     <link rel="stylesheet" href="{% static 'css/style_me.css' %}">
 
-    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0/css/select2.min.css" rel="stylesheet"/>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0/js/select2.min.js"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet">
-
-
     <style>
         * {
             font-family: MyCustomFont;
@@ -218,15 +210,10 @@
 <!-- Jquery Plugins, main Jquery -->
 <script src="{% static 'js/plugins.js' %}"></script>
 <script src="{% static 'js/main.js' %}"></script>
-{#<script>#}
-{#    function submitForm() {#}
-{#        document.forms['form_filter'].submit();#}
-{#    }#}
-{#</script>#}
 <script>
 
     const cities = [
-        "تهران", "مشهد", "اصفهان", "کرج", "شیراز", "قم", "ساری", "تبریز", "تبریز",
+        "تهران", "مشهد", "اصفهان", "کرج", "شیراز", "قم", "ساری", "تبریز",
         "اراک", "اهواز", "یزد", "قزوین", "کرمان", "هرمزگان", "بوشهر", "گلستان", "همدان",
         "ارومیه", "زنجان", "زاهدان", "سمنان", "کرمانشاه", "اردبیل", "بجنورد", "سنندج",
         "کردستان", "خرم آباد", "کهکیلویه و بویراحمد", "بیرجند", "ایلام",
@@ -236,29 +223,32 @@
     const cityList = document.getElementById("city-list");
     const selectedLocationInput = document.getElementById("selected-location");
 
-    citySearchInput.addEventListener("input", function () {
-        const searchText = this.value.trim();
+    // The city search box only exists on pages that include the search header
+    if (citySearchInput) {
+        citySearchInput.addEventListener("input", function () {
+            const searchText = this.value.trim();
 
 
-        cityList.innerHTML = "";
+            cityList.innerHTML = "";
 
-        if (searchText.length > 0) {
-            const filteredCities = cities.filter(city => city.includes(searchText));
-            filteredCities.forEach(city => {
-                const li = document.createElement("li");
-                li.textContent = city;
-                li.classList.add("option");
+            if (searchText.length > 0) {
+                const filteredCities = cities.filter(city => city.includes(searchText));
+                filteredCities.forEach(city => {
+                    const li = document.createElement("li");
+                    li.textContent = city;
+                    li.classList.add("option");
 
-                li.addEventListener("click", function () {
-                    citySearchInput.value = city;
-                    selectedLocationInput.value = city;
-                    cityList.innerHTML = "";
+                    li.addEventListener("click", function () {
+                        citySearchInput.value = city;
+                        selectedLocationInput.value = city;
+                        cityList.innerHTML = "";
+                    });
+
+                    cityList.appendChild(li);
                 });
-
-                cityList.appendChild(li);
-            });
-        }
-    });
+            }
+        });
+    }
 
 </script>
 </body>

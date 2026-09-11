@@ -1,5 +1,4 @@
 {% extends '_base.html' %}
-{% load crispy_forms_tags %}
 {% load static %}
 {% block title %}
     جزییات کتاب {{ post.title }}
@@ -103,7 +102,6 @@
                                     <form method="post" action="{% url 'add_to_favorites' post.pk %}">
                                         {% csrf_token %}
                                         <input type="hidden" name="check_favorite" id="check_favorite" value="False">
-                                        <input type="hidden" name="user" value="{{ user.username }}">
                                         <button name="add_to_favorites" type="submit"
                                                 style="font-family: MyCustomFont; border-radius: 5px; background-color: #242B5E; font-size: small">
                                             حذف از نشان شده ها
@@ -113,10 +111,6 @@
                                     <form method="post" action="{% url 'add_to_favorites' post.pk %}">
                                         {% csrf_token %}
                                         <input type="hidden" name="check_favorite" id="check_favorite" value="True">
-                                        {% if user.is_authenticated %}
-                                            <input type="hidden" name="user" value="{{ user.username }}">
-                                        {% endif %}
-
                                         <button name="add_to_favorites" type="submit"
                                                 style="font-family: MyCustomFont; border-radius: 5px; background-color: #242B5E; font-size: small">
                                             نشان کردن

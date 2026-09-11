@@ -1,5 +1,4 @@
 {% extends '_base.html' %}
-{% load static %}
 
 {% block title %}
     نشان شده ها
@@ -9,185 +8,21 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="section-tittle text-center">
-                <h2 style="font-family: MyCustomFont;font-size: x-large; letter-spacing: -1px">جدید ترین آگهی ها</h2>
+                <h2 style="font-family: MyCustomFont;font-size: x-large; letter-spacing: -1px">نشان شده ها</h2>
             </div>
         </div>
     </div>
 {% endblock new_ads %}
 {% block header %}
-    <!-- slider Area Start-->
-    <div class="slider-area " dir="rtl">
-        <!-- Mobile Menu -->
-        <div class="slider-active">
-            <div class="single-slider slider-height d-flex align-items-center"
-                 data-background="{% static 'img/hero/h1_hero.jpg' %}">
-                <div class="container">
-                    <div class="row" style="justify-content: center;">
-                        <div class="col-xl-6 col-lg-9 col-md-10">
-                            <div class="hero__caption text-center" style="justify-content: center;">
-                                <h4 style="font-family: MyCustomFont;line-height: normal" class="text-center">همه ی آگهی
-                                    های
-                                    سایت های کاریابی را یکجا ببینید</h4>
-                            </div>
-                            <br>
-                        </div>
-                    </div>
-                    <!-- Search Box -->
-                   <div class="row" style="justify-content: left;">
-                        <div class="col-xl-8" style="background-color: white; border-radius: 15px;">
-                            <!-- form -->
-                            <form action="{% url 'search' %}" class="search-box" name="form_filter" method="POST">
-                                {% csrf_token %}
-                                <div class="input-form">
-                                    <input style="font-family: MyCustomFont; border-radius: 15px" type="text"
-                                           placeholder="عنوان شغلی / مهارت یا ..." name="search_keyword">
-                                </div>
-                                <div class="select-form text-center"
-                                     style="font-family: MyCustomFont; align-items: center; display: flex; flex-direction: column;">
-                                    <input type="hidden" name="location" id="selected-location" value="">
-                                    <div class="city-list-container" style="position: absolute;
-                                            width: auto;
-                                            max-height: 200px;
-                                            overflow-y: auto;
-                                            z-index: 1;
-                                            top: 25%">
-
-                                        <input style="width: 100%; height: 100%; border: none; outline: none; text-align: center;"
-                                               type="text" id="city-search" placeholder="جستجوی شهر...">
-                                        <ul id="city-list" class="city-list">
-
-                                        </ul>
-                                    </div>
-                                </div>
-                                <br>
-                                <br>
-
-                                <div class="search-form">
-                                    <input value="جستجو" type="submit"
-                                           style="font-family: MyCustomFont; border-radius: 10px; width: 100%; height: 100%; background-color: #fb246a; color: white;"
-                                           class="button-like-link"
-                                           onclick="submitForm(); return false;">
-                                </div>
-                            </form>
-
-
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- slider Area End-->
+    {% include '_search_header.html' %}
 {% endblock header %}
 
 {% block content %}
     {% if user.is_authenticated %}
         {% if favorites %}
             {% for favorite in favorites %}
-
-                <div class="single-job-items mb-30" style="margin-bottom: 30px;font-family: MyCustomFont">
-                    <div class="items-link f-left">
-                        <a href="{% url 'post_detail' favorite.post.id %}">مشاهده آگهی</a>
-                        <span style="font-size: small; text-align: center" dir="rtl">
-                    {% if favorite.post.date_modified == "(امروز)" %}
-                        امروز منتشر شده
-                    {% elif favorite.post.date_modified == 0 %}
-                        امروز منتشر شده
-
-                    {% elif favorite.post.date_modified == -1 %}
-                        <p style="font-family: MyCustomFont;background-color: #f65151;border-radius: 5px;color: white;">فوری</p>
-                    {% else %}
-                        {{ favorite.post.date_modified }}  روز پیش منتشر شده
-                    {% endif %}
-                </span>
-                    </div>
-
-                    <div class="job-items" style="display: flex; align-items: center;">
-                        <div class="job-tittle" style="flex: 1;">
-                            <a href="{% url 'post_detail' favorite.post.id %}">
-                                <h4 dir="rtl"
-                                    style="font-size: large; font-family: MyCustomFont; margin-bottom: 10px;text-align: right">{{ favorite.post.title }}</h4>
-                            </a>
-                            <ul style="text-align: right; margin-right: 0;">
-                                <li>
-                                    {% if favorite.post.website == "jobinja" %}
-                                        جابینجا
-                                    {% elif favorite.post.website == "job_vision" %}
-                                        جاب ویژن
-                                    {% elif favorite.post.website == "e-estekhdam" %}
-                                        ای استخدام
-                                    {% endif %}
-                                </li>
-                                <li>{{ favorite.post.company_name }}</li>
-                                <li>{{ favorite.post.location }} <i class="fas fa-map-marker-alt"></i></li>
-                            </ul>
-                        </div>
-                        <div class="company-img" style="margin-left: 20px;">
-                            <a href="{% url 'post_detail' favorite.post.id %}">
-                                {% if favorite.post.website == "jobinja" %}
-                                    <img src="{% static 'img/icon/Jobinja-Logo.png' %}" alt="">
-                                {% elif favorite.post.website == "job_vision" %}
-                                    <img src="{% static 'img/icon/jobvision.png' %}" alt="">
-                                {% elif favorite.post.website == "e-estekhdam" %}
-                                    <img src="{% static 'img/icon/jobvision.png' %}" alt="">
-                                {% endif %}
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
+                {% include '_job_card.html' with post=favorite.post %}
             {% endfor %}
-            <div class="navbar subscribe_text">
-                <nav aria-label="Page navigation example" style="margin: auto">
-                    <ul class="pagination justify-content-end">
-                        {% if page_obj.has_previous %}
-                            <li class="page-item">
-                                <a class="page-link" href="?page=1">First</a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link" href="?page={{ page_obj.previous_page_number }}" tabindex="-1">Previous</a>
-                            </li>
-                        {% else %}
-                            <li class="page-item disabled">
-                                <a class="page-link" href="#" tabindex="-1">First</a>
-                            </li>
-                            <li class="page-item disabled">
-                                <a class="page-link" href="#" tabindex="-1">Previous</a>
-                            </li>
-                        {% endif %}
-
-                        {% for num in page_obj.paginator.page_range %}
-                            {% if page_obj.number == num %}
-                                <li class="page-item active"><a class="page-link" href="#">{{ num }}</a></li>
-                            {% else %}
-                                {% if num > page_obj.number|add:-3 and num < page_obj.number|add:3 %}
-                                    <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
-                                {% elif num == page_obj.paginator.page_range.1 or num == page_obj.paginator.page_range.1 %}
-                                    <li class="page-item disabled"><a class="page-link" href="#">...</a></li>
-                                {% endif %}
-                            {% endif %}
-                        {% endfor %}
-
-                        {% if page_obj.has_next %}
-                            <li class="page-item">
-                                <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
-                            </li>
-                            <li class="page-item">
-                                <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
-                            </li>
-                        {% else %}
-                            <li class="page-item disabled">
-                                <a class="page-link" href="#" tabindex="-1">Next</a>
-                            </li>
-                            <li class="page-item disabled">
-                                <a class="page-link" href="#" tabindex="-1">Last</a>
-                            </li>
-                        {% endif %}
-                    </ul>
-                </nav>
-            </div>
-
         {% else %}
             <div class="alert alert-primary text-center" role="alert" dir="rtl">
             <span style="font-family: MyCustomFont" class="text-center" dir="rtl">
